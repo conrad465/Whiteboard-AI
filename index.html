@@ -13,12 +13,13 @@
         color: #cdd6f4;
         height: 100vh;
         display: grid;
-        grid-template-rows: auto 1fr auto;
+        grid-template-rows: auto 1fr auto auto;
         grid-template-columns: 1fr 360px;
         grid-template-areas:
-          "header  header"
-          "canvas  sidebar"
-          "controls controls";
+          "header     header"
+          "canvas     sidebar"
+          "transcript sidebar"
+          "controls   controls";
         gap: 0;
       }
 
@@ -53,7 +54,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 16px;
+        padding: 16px 16px 8px;
         background: #181825;
         overflow: hidden;
       }
@@ -63,6 +64,56 @@
         cursor: default;
         max-width: 100%;
         max-height: 100%;
+      }
+
+      /* ── Transcript viewer ── */
+      #transcript-viewer {
+        grid-area: transcript;
+        background: #181825;
+        border-top: 1px solid #313244;
+        padding: 10px 16px;
+        max-height: 140px;
+        overflow-y: auto;
+        line-height: 1.7;
+        font-size: 0.85rem;
+        color: #a6adc8;
+      }
+
+      /* Plain text segments */
+      .tx-plain {
+        color: #a6adc8;
+      }
+
+      /* Trigger phrase spans */
+      .tx-trigger {
+        display: inline;
+        border-radius: 3px;
+        padding: 1px 3px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+        border-bottom: 2px solid transparent;
+      }
+      .tx-trigger--pending {
+        color: #89b4fa;
+        border-bottom-color: #45475a;
+      }
+      .tx-trigger--pending:hover {
+        background: #313244;
+      }
+      .tx-trigger--active {
+        color: #1e1e2e;
+        background: #f9e2af;
+        border-bottom-color: #f9e2af;
+      }
+      .tx-trigger--past {
+        color: #585b70;
+        border-bottom-color: #313244;
+        text-decoration: line-through;
+      }
+      .tx-trigger--past:hover {
+        background: #313244;
+        color: #a6adc8;
+        text-decoration: none;
       }
 
       /* ── Sidebar ── */
@@ -155,6 +206,8 @@
     <div id="canvas-container">
       <canvas id="whiteboard"></canvas>
     </div>
+
+    <div id="transcript-viewer"></div>
 
     <aside id="sidebar">
       <label>Scene JSON</label>

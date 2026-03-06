@@ -71,6 +71,13 @@ export class TTSEngine {
   }
 
   cancel(): void {
+    // Null out handlers BEFORE cancelling so the async 'onend' that the browser
+    // fires after cancel() doesn't trigger the old callback (e.g. handleTTSEnd).
+    if (this.utterance) {
+      this.utterance.onboundary = null;
+      this.utterance.onend      = null;
+      this.utterance.onerror    = null;
+    }
     window.speechSynthesis.cancel();
     this._isSpeaking = false;
     this._isPaused   = false;

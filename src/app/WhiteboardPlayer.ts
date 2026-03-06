@@ -15,6 +15,7 @@ import { ActionScheduler }      from "../engine/ActionScheduler";
 import { TTSEngine }            from "../tts/TTSEngine";
 import { TranscriptMapper }     from "../tts/TranscriptMapper";
 import { BoundaryTracker }      from "../tts/BoundaryTracker";
+import { TranscriptViewer }     from "./TranscriptViewer";
 
 // -----------------------------------------------------------------------------
 // PlayerState
@@ -37,11 +38,14 @@ export class WhiteboardPlayer {
   private ttsEngine:           TTSEngine;
   private transcriptMapper:    TranscriptMapper;
   private boundaryTracker:     BoundaryTracker;
+  private transcriptViewer:    TranscriptViewer | null = null;
 
-  private scene:      SceneDefinition | null = null;
-  private _state:     PlayerState = "idle";
-  private rafId:      number | null = null;
+  private scene:        SceneDefinition | null = null;
+  private _state:       PlayerState = "idle";
+  private rafId:        number | null = null;
   private onStateChange: PlayerStateChangeHandler | null = null;
+  /** Guard: prevents handleTTSEnd from running while seekTo is in progress. */
+  private _isSeeking = false;
 
   constructor(canvas: HTMLCanvasElement) {
     this.sceneGraph       = new SceneGraph();
@@ -72,6 +76,11 @@ export class WhiteboardPlayer {
     this.onStateChange = handler;
   }
 
+  setTranscriptViewer(viewer: TranscriptViewer): void {
+    this.transcriptViewer = viewer;
+    viewer.onSeekRequest((seekCharIndex) => this.seekTo(seekCharIndex));
+  }
+
   /**
    * Load a scene definition. Resets the canvas to blank.
    */
@@ -91,6 +100,9 @@ export class WhiteboardPlayer {
     this.actionScheduler = new ActionScheduler(scene.actions);
     const mappings = this.transcriptMapper.buildMappings(scene.transcript, scene.actions);
     this.boundaryTracker.loadMappings(mappings);
+
+    // Feed viewer
+    this.transcriptViewer?.loadScene(scene.transcript, mappings);
 
     this.setState("idle");
     this.renderer.forceRedraw();
@@ -114,7 +126,11 @@ export class WhiteboardPlayer {
 
     this.ttsEngine.speak(
       this.scene.transcript,
-      (event) => this.boundaryTracker.handleBoundary(event),
+      (event) => {
+        this.boundaryTracker.handleBoundary(event);
+        // charOffset is 0 when playing from the beginning
+        this.transcriptViewer?.updateProgress(event.charIndex);
+      },
       () => this.handleTTSEnd()
     );
   }
@@ -138,6 +154,66 @@ export class WhiteboardPlayer {
   }
 
   /**
+   * Jump to the given absolute character index in the transcript.
+   * Instantly applies all actions whose trigger phrase starts before seekCharIndex,
+   * then restarts TTS from that point.
+   */
+  seekTo(seekCharIndex: number): void {
+    if (!this.scene || !this.actionScheduler) return;
+
+    this._isSeeking = true;
+
+    // Cancel current TTS (fires onend, but _isSeeking guard prevents handleTTSEnd)
+    this.ttsEngine.cancel();
+
+    // Reset canvas and animation state
+    this.sceneGraph.clear();
+    this.animationController.clear();
+    this.boundaryTracker.reset();
+
+    // Re-apply defaults
+    this.renderer.setBgColor(this.scene.canvas.background_color);
+
+    // Reload mappings fresh
+    const mappings = this.transcriptMapper.buildMappings(this.scene.transcript, this.scene.actions);
+    this.boundaryTracker.loadMappings(mappings);
+
+    // Instant-apply all actions whose trigger phrase ends before seekCharIndex
+    for (const mapping of mappings) {
+      if (mapping.startCharIndex < seekCharIndex) {
+        const action = this.actionScheduler.getAction(mapping.actionId);
+        if (action) {
+          this.executeActionInstant(action);
+        }
+        this.boundaryTracker.markApplied(mapping.actionId);
+      }
+    }
+
+    // Force a redraw so the instantly-applied state shows
+    this.renderer.forceRedraw();
+
+    // Update viewer highlight state
+    this.transcriptViewer?.updateProgress(seekCharIndex);
+
+    // Set char offset so boundary events during resumed TTS map to absolute positions
+    this.boundaryTracker.setCharOffset(seekCharIndex);
+
+    this._isSeeking = false;
+
+    // Resume TTS from the seek point
+    this.setState("playing");
+    this.ttsEngine.speak(
+      this.scene.transcript.slice(seekCharIndex),
+      (event) => {
+        this.boundaryTracker.handleBoundary(event);
+        const absoluteChar = event.charIndex + seekCharIndex;
+        this.transcriptViewer?.updateProgress(absoluteChar);
+      },
+      () => this.handleTTSEnd()
+    );
+  }
+
+  /**
    * Update the canvas size (e.g., on window resize).
    * Note: this does NOT re-resolve element positions; that would require
    * replaying the scene. Positions are baked at create time.
@@ -151,6 +227,8 @@ export class WhiteboardPlayer {
   // ---------------------------------------------------------------------------
 
   private handleTTSEnd(): void {
+    if (this._isSeeking) return;
+
     // Complete any actions that didn't get a boundary event for their end word
     this.boundaryTracker.handleEnd();
     // Force all animations to completion
@@ -232,6 +310,53 @@ export class WhiteboardPlayer {
           deleteAnim,
           true  // isDeleting = true → AnimationController fades out and removes
         );
+        break;
+      }
+    }
+  }
+
+  /**
+   * Apply an action immediately (no animation). Used during seekTo to fast-forward
+   * past actions. Elements are placed directly into the scene graph as visible.
+   */
+  private executeActionInstant(action: WhiteboardAction): void {
+    if (!this.scene) return;
+
+    switch (action.action_type) {
+      case "create": {
+        const create = action as CreateAction;
+        const geometry = this.positionResolver.resolve(create.element);
+        this.sceneGraph.addElement(create.element, geometry);
+        // Mark immediately visible (no animation)
+        const el = this.sceneGraph.getElement(create.element.id);
+        if (el) {
+          el.state   = "visible";
+          el.opacity = 1;
+          el.scale   = 1;
+          if ("drawProgress" in el) el.drawProgress = 1;
+          if ("visibleChars" in el) {
+            const chars = "content" in create.element ? (create.element as { content: string }).content.length : 0;
+            el.visibleChars = chars;
+          }
+        }
+        break;
+      }
+
+      case "edit": {
+        const edit = action as EditAction;
+        const el = this.sceneGraph.getElement(edit.element_id);
+        if (el) {
+          this.sceneGraph.updateElement(edit.element_id, edit.changes as Partial<typeof el.definition>);
+        }
+        break;
+      }
+
+      case "delete": {
+        const del = action as DeleteAction;
+        const el = this.sceneGraph.getElement(del.element_id);
+        if (el) {
+          this.sceneGraph.hardDelete(del.element_id);
+        }
         break;
       }
     }

@@ -1,4 +1,5 @@
 import { WhiteboardPlayer, type PlayerState } from "./WhiteboardPlayer";
+import { TranscriptViewer } from "./TranscriptViewer";
 import { SceneLoader } from "../engine/SceneLoader";
 import type { SceneDefinition } from "../schema/types";
 
@@ -13,6 +14,7 @@ const stopBtn     = document.getElementById("btn-stop")   as HTMLButtonElement;
 const statusEl    = document.getElementById("status")     as HTMLElement;
 const sceneInput  = document.getElementById("scene-json") as HTMLTextAreaElement;
 const loadJsonBtn = document.getElementById("btn-load-json") as HTMLButtonElement;
+const txContainer = document.getElementById("transcript-viewer") as HTMLElement;
 
 // -----------------------------------------------------------------------------
 // Resize canvas to fill its container, maintaining 16:9
@@ -43,10 +45,12 @@ window.addEventListener("resize", () => {
 });
 
 // -----------------------------------------------------------------------------
-// Player
+// Player + TranscriptViewer
 // -----------------------------------------------------------------------------
 
 const player = new WhiteboardPlayer(canvas);
+const viewer = new TranscriptViewer(txContainer);
+player.setTranscriptViewer(viewer);
 
 function setStatus(state: PlayerState): void {
   const labels: Record<PlayerState, string> = {
@@ -72,7 +76,7 @@ let currentScene: SceneDefinition | null = null;
 
 async function loadDefaultScene(): Promise<void> {
   try {
-    const scene = await SceneLoader.loadFromUrl("/sample-scene.json");
+    const scene = await SceneLoader.loadFromUrl(import.meta.env.BASE_URL + "sample-scene.json");
     currentScene = scene;
     player.loadScene(scene);
     sceneInput.value = JSON.stringify(scene, null, 2);
@@ -101,6 +105,7 @@ pauseBtn.addEventListener("click", () => {
 stopBtn.addEventListener("click", () => {
   player.stop();
   if (currentScene) player.loadScene(currentScene);
+  viewer.reset();
   setStatus("idle");
 });
 
