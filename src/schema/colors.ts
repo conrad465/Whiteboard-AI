@@ -20,10 +20,10 @@ export const COLOR_MAP: Record<NamedColor, string> = {
  * Designed to be legible on a whiteboard at typical viewing distances.
  */
 export const FONT_SIZE_MAP: Record<FontSize, number> = {
-  small:  16,
-  medium: 24,
-  large:  36,
-  xlarge: 52,
+  small:  12,
+  medium: 18,
+  large:  28,
+  xlarge: 40,
 };
 
 /**
