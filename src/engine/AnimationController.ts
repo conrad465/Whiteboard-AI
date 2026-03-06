@@ -35,11 +35,13 @@ const SOFTCAP_DURATION_MS = 600;
 
 export class AnimationController {
   private active = new Map<string, ActiveAnimation>();
+  private renderer: Renderer;
+  private sceneGraph: SceneGraph;
 
-  constructor(
-    private renderer: Renderer,
-    private sceneGraph: SceneGraph
-  ) {}
+  constructor(renderer: Renderer, sceneGraph: SceneGraph) {
+    this.renderer   = renderer;
+    this.sceneGraph = sceneGraph;
+  }
 
   // ---------------------------------------------------------------------------
   // Public API — called by WhiteboardPlayer in response to BoundaryTracker events

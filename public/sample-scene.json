@@ -1,0 +1,160 @@
+{
+  "version": "1.0",
+  "title": "House and Tree",
+  "canvas": {
+    "aspect_ratio": "16:9",
+    "background_color": "white"
+  },
+  "transcript": "Imagine we have a house. The house is green. Now let's add a tree next to it.",
+  "default_animation": {
+    "type": "fade_in",
+    "easing": "ease_out"
+  },
+  "actions": [
+    {
+      "action_id": "create_house_body",
+      "action_type": "create",
+      "trigger_phrase": "Imagine we have a house",
+      "element": {
+        "id": "house_body",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 18,
+        "height_percent": 28,
+        "fill_color": "white",
+        "border_color": "black",
+        "border_width": 3,
+        "position": {
+          "type": "canvas",
+          "x_percent": 38,
+          "y_percent": 58,
+          "anchor": "center"
+        }
+      }
+    },
+    {
+      "action_id": "create_house_roof",
+      "action_type": "create",
+      "trigger_phrase": "Imagine we have a house",
+      "element": {
+        "id": "house_roof",
+        "element_type": "shape",
+        "shape": "triangle",
+        "width_percent": 22,
+        "height_percent": 16,
+        "fill_color": "white",
+        "border_color": "black",
+        "border_width": 3,
+        "position": {
+          "type": "relative",
+          "relative_to": "house_body",
+          "placement": "above",
+          "gap_percent": 0,
+          "align": "center"
+        }
+      }
+    },
+    {
+      "action_id": "create_house_label",
+      "action_type": "create",
+      "trigger_phrase": "Imagine we have a house",
+      "element": {
+        "id": "house_label",
+        "element_type": "text",
+        "content": "house",
+        "font_size": "medium",
+        "color": "black",
+        "italic": true,
+        "position": {
+          "type": "relative",
+          "relative_to": "house_body",
+          "placement": "below",
+          "gap_percent": 1,
+          "align": "center"
+        }
+      }
+    },
+    {
+      "action_id": "color_house_body_green",
+      "action_type": "edit",
+      "trigger_phrase": "The house is green",
+      "element_id": "house_body",
+      "changes": {
+        "fill_color": "green"
+      }
+    },
+    {
+      "action_id": "color_house_roof_green",
+      "action_type": "edit",
+      "trigger_phrase": "The house is green",
+      "element_id": "house_roof",
+      "changes": {
+        "fill_color": "green"
+      }
+    },
+    {
+      "action_id": "create_tree_trunk",
+      "action_type": "create",
+      "trigger_phrase": "Now let's add a tree next to it",
+      "element": {
+        "id": "tree_trunk",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 4,
+        "height_percent": 14,
+        "fill_color": "orange",
+        "border_color": "black",
+        "border_width": 2,
+        "position": {
+          "type": "relative",
+          "relative_to": "house_body",
+          "placement": "right_of",
+          "gap_percent": 5,
+          "align": "bottom"
+        }
+      }
+    },
+    {
+      "action_id": "create_tree_canopy",
+      "action_type": "create",
+      "trigger_phrase": "Now let's add a tree next to it",
+      "element": {
+        "id": "tree_canopy",
+        "element_type": "shape",
+        "shape": "circle",
+        "width_percent": 12,
+        "height_percent": 18,
+        "fill_color": "green",
+        "border_color": "black",
+        "border_width": 2,
+        "position": {
+          "type": "relative",
+          "relative_to": "tree_trunk",
+          "placement": "above",
+          "gap_percent": 0,
+          "align": "center"
+        }
+      }
+    },
+    {
+      "action_id": "create_tree_label",
+      "action_type": "create",
+      "trigger_phrase": "Now let's add a tree next to it",
+      "element": {
+        "id": "tree_label",
+        "element_type": "text",
+        "content": "tree",
+        "font_size": "medium",
+        "color": "black",
+        "italic": true,
+        "position": {
+          "type": "relative",
+          "relative_to": "tree_trunk",
+          "placement": "below",
+          "gap_percent": 1,
+          "align": "center"
+        }
+      }
+    }
+  ]
+}

@@ -13,13 +13,16 @@ export class Renderer {
   private ctx: CanvasRenderingContext2D;
   private isDirty = false;
   private rafId: number | null = null;
+  private canvas: HTMLCanvasElement;
+  private sceneGraph: SceneGraph;
+  private painter: ElementPainter;
+  private bgColor: NamedColor;
 
-  constructor(
-    private canvas: HTMLCanvasElement,
-    private sceneGraph: SceneGraph,
-    private painter: ElementPainter,
-    private bgColor: NamedColor
-  ) {
+  constructor(canvas: HTMLCanvasElement, sceneGraph: SceneGraph, painter: ElementPainter, bgColor: NamedColor) {
+    this.canvas     = canvas;
+    this.sceneGraph = sceneGraph;
+    this.painter    = painter;
+    this.bgColor    = bgColor;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Renderer: could not get 2D context from canvas");
     this.ctx = ctx;

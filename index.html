@@ -2,12 +2,176 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>whiteboard-ai</title>
+    <title>Whiteboard AI</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: system-ui, sans-serif;
+        background: #1e1e2e;
+        color: #cdd6f4;
+        height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: 1fr 360px;
+        grid-template-areas:
+          "header  header"
+          "canvas  sidebar"
+          "controls controls";
+        gap: 0;
+      }
+
+      /* ── Header ── */
+      header {
+        grid-area: header;
+        padding: 10px 20px;
+        background: #181825;
+        border-bottom: 1px solid #313244;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      header h1 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+      }
+      #status {
+        font-size: 0.85rem;
+        color: #a6e3a1;
+        margin-left: auto;
+        padding: 3px 10px;
+        background: #1e1e2e;
+        border-radius: 999px;
+        border: 1px solid #313244;
+      }
+
+      /* ── Canvas area ── */
+      #canvas-container {
+        grid-area: canvas;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        background: #181825;
+        overflow: hidden;
+      }
+      #whiteboard {
+        border-radius: 4px;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+        cursor: default;
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      /* ── Sidebar ── */
+      #sidebar {
+        grid-area: sidebar;
+        background: #181825;
+        border-left: 1px solid #313244;
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        gap: 10px;
+        overflow: hidden;
+      }
+      #sidebar label {
+        font-size: 0.78rem;
+        color: #a6adc8;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      #scene-json {
+        flex: 1;
+        resize: none;
+        background: #1e1e2e;
+        color: #cdd6f4;
+        border: 1px solid #313244;
+        border-radius: 6px;
+        padding: 10px;
+        font-family: "Cascadia Code", "Fira Code", monospace;
+        font-size: 0.72rem;
+        line-height: 1.5;
+        tab-size: 2;
+        overflow-y: auto;
+      }
+      #scene-json:focus {
+        outline: none;
+        border-color: #89b4fa;
+      }
+      #btn-load-json {
+        padding: 7px 14px;
+        background: #89b4fa;
+        color: #1e1e2e;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #btn-load-json:hover { background: #74c7ec; }
+
+      /* ── Controls ── */
+      #controls {
+        grid-area: controls;
+        background: #181825;
+        border-top: 1px solid #313244;
+        padding: 10px 20px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+      #btn-play  { background: #a6e3a1; color: #1e1e2e; }
+      #btn-pause { background: #f9e2af; color: #1e1e2e; }
+      #btn-stop  { background: #f38ba8; color: #1e1e2e; }
+      .btn:not(:disabled):hover { opacity: 0.85; }
+
+      .hint {
+        margin-left: auto;
+        font-size: 0.75rem;
+        color: #6c7086;
+        line-height: 1.4;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <header>
+      <h1>Whiteboard AI</h1>
+      <span id="status">Loading…</span>
+    </header>
+
+    <div id="canvas-container">
+      <canvas id="whiteboard"></canvas>
+    </div>
+
+    <aside id="sidebar">
+      <label>Scene JSON</label>
+      <textarea id="scene-json" spellcheck="false"></textarea>
+      <button id="btn-load-json" class="btn">Load Scene</button>
+    </aside>
+
+    <div id="controls">
+      <button id="btn-play"  class="btn" disabled>Play</button>
+      <button id="btn-pause" class="btn" disabled>Pause</button>
+      <button id="btn-stop"  class="btn" disabled>Stop</button>
+      <span class="hint">
+        Edit the scene JSON on the right and click "Load Scene"<br>
+        to preview your changes, then press Play.
+      </span>
+    </div>
+
+    <script type="module" src="/src/app/index.ts"></script>
   </body>
 </html>

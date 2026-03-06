@@ -1,5 +1,4 @@
 import type {
-  Position,
   CanvasPosition,
   RelativeElementPosition,
   WhiteboardElement,
@@ -57,11 +56,15 @@ const PLACEMENT_VECTORS: Record<RelativePlacement, { dx: number; dy: number }> =
 // -----------------------------------------------------------------------------
 
 export class PositionResolver {
-  constructor(
-    private canvasWidth: number,
-    private canvasHeight: number,
-    private sceneGraph: SceneGraph
-  ) {}
+  private canvasWidth: number;
+  private canvasHeight: number;
+  private sceneGraph: SceneGraph;
+
+  constructor(canvasWidth: number, canvasHeight: number, sceneGraph: SceneGraph) {
+    this.canvasWidth  = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.sceneGraph   = sceneGraph;
+  }
 
   updateCanvasSize(width: number, height: number): void {
     this.canvasWidth = width;

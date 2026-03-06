@@ -216,6 +216,7 @@ export interface DeleteAction {
   action_type: "delete";
   trigger_phrase: string;
   element_id: string;
+  animation?: AnimationConfig;
 }
 
 export type WhiteboardAction = CreateAction | EditAction | DeleteAction;
