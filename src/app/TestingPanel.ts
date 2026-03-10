@@ -21,11 +21,12 @@ export interface TestCase {
 }
 
 export interface FeedbackEntry {
-  caseId:    string;
-  caseName:  string;
-  category:  string;
-  feedback:  string;
-  timestamp: string;
+  caseId:     string;
+  caseName:   string;
+  category:   string;
+  feedback:   string;
+  timestamp:  string;
+  screenshot?: string; // JPEG data URL captured at submit time
 }
 
 // localStorage key for persisted feedback
@@ -228,12 +229,17 @@ export class TestingPanel {
       return;
     }
 
+    // Capture the current canvas state as a JPEG screenshot
+    const canvas = document.getElementById("whiteboard") as HTMLCanvasElement | null;
+    const screenshot = canvas?.toDataURL("image/jpeg", 0.7);
+
     const entry: FeedbackEntry = {
-      caseId:    this.currentCase.id,
-      caseName:  this.currentCase.name,
-      category:  this.currentCase.category,
-      feedback:  text,
-      timestamp: new Date().toISOString(),
+      caseId:     this.currentCase.id,
+      caseName:   this.currentCase.name,
+      category:   this.currentCase.category,
+      feedback:   text,
+      timestamp:  new Date().toISOString(),
+      screenshot,
     };
 
     this.saveFeedback(entry);
@@ -323,8 +329,61 @@ export class TestingPanel {
     ];
     XLSX.utils.book_append_sheet(wb, wsCases, "Test Cases");
 
-    // Download
+    // Download Excel
     const date = new Date().toISOString().slice(0, 10);
     XLSX.writeFile(wb, `whiteboard-ai-feedback-${date}.xlsx`);
+
+    // Download HTML report with embedded screenshots (if any entries have screenshots)
+    if (feedback.some(e => e.screenshot)) {
+      this.exportHtmlReport(feedback, date);
+    }
+  }
+
+  private exportHtmlReport(feedback: FeedbackEntry[], date: string): void {
+    const rows = feedback.map(e => `
+      <div class="entry">
+        <div class="meta">
+          <span class="case-id">${e.caseId}</span>
+          <span class="case-name">${e.caseName}</span>
+          <span class="category">${e.category}</span>
+          <span class="timestamp">${e.timestamp}</span>
+        </div>
+        <p class="feedback-text">${e.feedback.replace(/</g, "&lt;")}</p>
+        ${e.screenshot
+          ? `<img src="${e.screenshot}" alt="Screenshot for ${e.caseId}" />`
+          : `<p class="no-screenshot">No screenshot captured.</p>`
+        }
+      </div>`).join("\n");
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WhiteBoard AI Feedback — ${date}</title>
+  <style>
+    body { font-family: sans-serif; max-width: 900px; margin: 40px auto; color: #222; }
+    h1 { font-size: 1.4rem; margin-bottom: 1.5rem; }
+    .entry { border: 1px solid #ddd; border-radius: 6px; padding: 16px; margin-bottom: 24px; }
+    .meta { display: flex; gap: 12px; font-size: 0.8rem; color: #666; margin-bottom: 8px; flex-wrap: wrap; }
+    .case-id { font-weight: bold; color: #333; }
+    .case-name { font-weight: 600; }
+    .feedback-text { margin: 8px 0 12px; white-space: pre-wrap; }
+    img { max-width: 100%; border: 1px solid #ccc; border-radius: 4px; }
+    .no-screenshot { color: #999; font-style: italic; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>WhiteBoard AI Feedback Report — ${date}</h1>
+  ${rows}
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: "text/html" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = `whiteboard-ai-feedback-${date}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 }
