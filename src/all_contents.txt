@@ -1,0 +1,2362 @@
+export function setupCounter(element: HTMLButtonElement) {
+  let counter = 0
+  const setCounter = (count: number) => {
+    counter = count
+    element.innerHTML = `count is ${counter}`
+  }
+  element.addEventListener('click', () => setCounter(counter + 1))
+  setCounter(0)
+}
+import './style.css'
+import typescriptLogo from './typescript.svg'
+import viteLogo from '/vite.svg'
+import { setupCounter } from './counter.ts'
+
+document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+  <div>
+    <a href="https://vite.dev" target="_blank">
+      <img src="${viteLogo}" class="logo" alt="Vite logo" />
+    </a>
+    <a href="https://www.typescriptlang.org/" target="_blank">
+      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
+    </a>
+    <h1>Vite + TypeScript</h1>
+    <div class="card">
+      <button id="counter" type="button"></button>
+    </div>
+    <p class="read-the-docs">
+      Click on the Vite and TypeScript logos to learn more
+    </p>
+  </div>
+`
+
+setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vanilla:hover {
+  filter: drop-shadow(0 0 2em #3178c6aa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="32" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256"><path fill="#007ACC" d="M0 128v128h256V0H0z"></path><path fill="#FFF" d="m56.612 128.85l-.081 10.483h33.32v94.68h23.568v-94.68h33.321v-10.28c0-5.69-.122-10.444-.284-10.566c-.122-.162-20.4-.244-44.983-.203l-44.74.122l-.121 10.443Zm149.955-10.742c6.501 1.625 11.459 4.51 16.01 9.224c2.357 2.52 5.851 7.111 6.136 8.208c.08.325-11.053 7.802-17.798 11.988c-.244.162-1.22-.894-2.317-2.52c-3.291-4.795-6.745-6.867-12.028-7.233c-7.76-.528-12.759 3.535-12.718 10.321c0 1.992.284 3.17 1.097 4.795c1.707 3.536 4.876 5.649 14.832 9.956c18.326 7.883 26.168 13.084 31.045 20.48c5.445 8.249 6.664 21.415 2.966 31.208c-4.063 10.646-14.14 17.879-28.323 20.276c-4.388.772-14.79.65-19.504-.203c-10.28-1.828-20.033-6.908-26.047-13.572c-2.357-2.6-6.949-9.387-6.664-9.874c.122-.163 1.178-.813 2.356-1.504c1.138-.65 5.446-3.129 9.509-5.485l7.355-4.267l1.544 2.276c2.154 3.29 6.867 7.801 9.712 9.305c8.167 4.307 19.383 3.698 24.909-1.26c2.357-2.153 3.332-4.388 3.332-7.68c0-2.966-.366-4.266-1.91-6.501c-1.99-2.845-6.054-5.242-17.595-10.24c-13.206-5.69-18.895-9.224-24.096-14.832c-3.007-3.25-5.852-8.452-7.03-12.8c-.975-3.617-1.22-12.678-.447-16.335c2.723-12.76 12.353-21.659 26.25-24.3c4.51-.853 14.994-.528 19.424.569Z"></path></svg>
+import { WhiteboardPlayer, type PlayerState } from "./WhiteboardPlayer";
+import { TranscriptViewer } from "./TranscriptViewer";
+import { SceneLoader } from "../engine/SceneLoader";
+import type { SceneDefinition } from "../schema/types";
+
+// -----------------------------------------------------------------------------
+// DOM setup
+// -----------------------------------------------------------------------------
+
+const canvas      = document.getElementById("whiteboard") as HTMLCanvasElement;
+const playBtn     = document.getElementById("btn-play")   as HTMLButtonElement;
+const pauseBtn    = document.getElementById("btn-pause")  as HTMLButtonElement;
+const stopBtn     = document.getElementById("btn-stop")   as HTMLButtonElement;
+const statusEl    = document.getElementById("status")     as HTMLElement;
+const sceneInput  = document.getElementById("scene-json") as HTMLTextAreaElement;
+const loadJsonBtn = document.getElementById("btn-load-json") as HTMLButtonElement;
+const txContainer = document.getElementById("transcript-viewer") as HTMLElement;
+
+// -----------------------------------------------------------------------------
+// Resize canvas to fill its container, maintaining 16:9
+// -----------------------------------------------------------------------------
+
+function resizeCanvas(): void {
+  const container = canvas.parentElement!;
+  const containerWidth  = container.clientWidth;
+  const containerHeight = container.clientHeight;
+
+  // Fit 16:9 inside container
+  const targetRatio = 16 / 9;
+  let w = containerWidth;
+  let h = w / targetRatio;
+  if (h > containerHeight) {
+    h = containerHeight;
+    w = h * targetRatio;
+  }
+
+  canvas.width  = Math.floor(w);
+  canvas.height = Math.floor(h);
+}
+
+resizeCanvas();
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  player.resize(canvas.width, canvas.height);
+});
+
+// -----------------------------------------------------------------------------
+// Player + TranscriptViewer
+// -----------------------------------------------------------------------------
+
+const player = new WhiteboardPlayer(canvas);
+const viewer = new TranscriptViewer(txContainer);
+player.setTranscriptViewer(viewer);
+
+function setStatus(state: PlayerState): void {
+  const labels: Record<PlayerState, string> = {
+    idle:     "Ready",
+    playing:  "Playing…",
+    paused:   "Paused",
+    finished: "Finished",
+  };
+  statusEl.textContent = labels[state] ?? state;
+
+  playBtn.disabled  = state === "playing";
+  pauseBtn.disabled = state !== "playing";
+  stopBtn.disabled  = state === "idle" || state === "finished";
+}
+
+player.onStateChanged(setStatus);
+
+// ---------------------------------------------------------------------------
+// Load default sample scene on startup
+// ---------------------------------------------------------------------------
+
+let currentScene: SceneDefinition | null = null;
+
+async function loadDefaultScene(): Promise<void> {
+  try {
+    const scene = await SceneLoader.loadFromUrl(import.meta.env.BASE_URL + "sample-scene.json");
+    currentScene = scene;
+    player.loadScene(scene);
+    sceneInput.value = JSON.stringify(scene, null, 2);
+    setStatus("idle");
+  } catch (err) {
+    statusEl.textContent = `Error loading scene: ${(err as Error).message}`;
+    console.error(err);
+  }
+}
+
+loadDefaultScene();
+
+// ---------------------------------------------------------------------------
+// Control buttons
+// ---------------------------------------------------------------------------
+
+playBtn.addEventListener("click", () => {
+  if (!currentScene) return;
+  player.play();
+});
+
+pauseBtn.addEventListener("click", () => {
+  player.pause();
+});
+
+stopBtn.addEventListener("click", () => {
+  player.stop();
+  if (currentScene) player.loadScene(currentScene);
+  viewer.reset();
+  setStatus("idle");
+});
+
+// ---------------------------------------------------------------------------
+// Load JSON from textarea
+// ---------------------------------------------------------------------------
+
+loadJsonBtn.addEventListener("click", () => {
+  try {
+    const scene = SceneLoader.loadFromString(sceneInput.value);
+    currentScene = scene;
+    player.loadScene(scene);
+    setStatus("idle");
+  } catch (err) {
+    statusEl.textContent = `Scene error: ${(err as Error).message}`;
+    console.error(err);
+  }
+});
+import type { TriggerMapping } from "../tts/TranscriptMapper";
+
+// -----------------------------------------------------------------------------
+// TranscriptViewer
+//
+// Renders the full transcript as annotated HTML inside a container element.
+// Trigger-phrase runs become clickable <span> elements with three visual states:
+//   pending  — not yet reached during playback
+//   active   — currently being spoken
+//   past     — already spoken
+//
+// Clicking any trigger-phrase span fires the onSeekRequest callback with the
+// absolute character index (in the full transcript) where that phrase starts.
+// -----------------------------------------------------------------------------
+
+export type SeekHandler = (seekCharIndex: number) => void;
+
+interface TriggerSpanMeta {
+  el: HTMLElement;
+  startChar: number;
+  endChar: number;
+}
+
+export class TranscriptViewer {
+  private container: HTMLElement;
+  private seekHandler: SeekHandler | null = null;
+  private triggerSpans: TriggerSpanMeta[] = [];
+  private lastActiveStart = -1;
+
+  constructor(container: HTMLElement) {
+    this.container = container;
+  }
+
+  onSeekRequest(handler: SeekHandler): void {
+    this.seekHandler = handler;
+  }
+
+  // ---------------------------------------------------------------------------
+  // loadScene — rebuild DOM from transcript + mappings
+  // ---------------------------------------------------------------------------
+
+  loadScene(transcript: string, mappings: TriggerMapping[]): void {
+    this.container.innerHTML = "";
+    this.triggerSpans = [];
+    this.lastActiveStart = -1;
+
+    // Deduplicate: multiple actions can share the same (startChar, endChar).
+    // We need one clickable span per unique phrase position.
+    const seen = new Set<number>();
+    const uniquePhrases: { start: number; end: number }[] = [];
+    for (const m of mappings) {
+      if (!seen.has(m.startCharIndex)) {
+        seen.add(m.startCharIndex);
+        uniquePhrases.push({ start: m.startCharIndex, end: m.endCharIndex + 1 });
+      }
+    }
+    // Already sorted by startCharIndex (TranscriptMapper guarantees this)
+
+    let cursor = 0;
+    for (const phrase of uniquePhrases) {
+      // Plain text before this phrase
+      if (cursor < phrase.start) {
+        this.container.appendChild(
+          this.makePlain(transcript.slice(cursor, phrase.start))
+        );
+      }
+
+      // Trigger phrase span
+      const span = this.makeTrigger(
+        transcript.slice(phrase.start, phrase.end),
+        phrase.start,
+        phrase.end - 1
+      );
+      this.triggerSpans.push({ el: span, startChar: phrase.start, endChar: phrase.end - 1 });
+      this.container.appendChild(span);
+
+      cursor = phrase.end;
+    }
+
+    // Remaining plain text
+    if (cursor < transcript.length) {
+      this.container.appendChild(this.makePlain(transcript.slice(cursor)));
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // updateProgress — called on each TTS boundary event
+  // charIndex is the ABSOLUTE position in the full transcript
+  // ---------------------------------------------------------------------------
+
+  updateProgress(charIndex: number): void {
+    let newActiveStart = -1;
+
+    for (const meta of this.triggerSpans) {
+      meta.el.classList.remove("tx-trigger--pending", "tx-trigger--active", "tx-trigger--past");
+
+      if (charIndex > meta.endChar) {
+        meta.el.classList.add("tx-trigger--past");
+      } else if (charIndex >= meta.startChar) {
+        meta.el.classList.add("tx-trigger--active");
+        newActiveStart = meta.startChar;
+      } else {
+        meta.el.classList.add("tx-trigger--pending");
+      }
+    }
+
+    // Scroll active span into view when it changes
+    if (newActiveStart !== this.lastActiveStart && newActiveStart !== -1) {
+      this.lastActiveStart = newActiveStart;
+      const activeMeta = this.triggerSpans.find(m => m.startChar === newActiveStart);
+      activeMeta?.el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // reset — clear all progress state (call on stop / load)
+  // ---------------------------------------------------------------------------
+
+  reset(): void {
+    this.lastActiveStart = -1;
+    for (const meta of this.triggerSpans) {
+      meta.el.classList.remove("tx-trigger--active", "tx-trigger--past");
+      meta.el.classList.add("tx-trigger--pending");
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Private DOM helpers
+  // ---------------------------------------------------------------------------
+
+  private makePlain(text: string): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.className = "tx-plain";
+    span.textContent = text;
+    return span;
+  }
+
+  private makeTrigger(text: string, startChar: number, endChar: number): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.className = "tx-trigger tx-trigger--pending";
+    span.textContent = text;
+    span.title = "Click to jump here";
+    span.dataset["start"] = String(startChar);
+    span.dataset["end"]   = String(endChar);
+    span.addEventListener("click", () => {
+      this.seekHandler?.(startChar);
+    });
+    return span;
+  }
+}
+import type {
+  SceneDefinition,
+  WhiteboardAction,
+  CreateAction,
+  EditAction,
+  DeleteAction,
+  AnimationConfig,
+} from "../schema/types";
+import { SceneGraph }           from "../engine/SceneGraph";
+import { PositionResolver }     from "../engine/PositionResolver";
+import { ElementPainter }       from "../engine/ElementPainter";
+import { Renderer }             from "../engine/Renderer";
+import { AnimationController }  from "../engine/AnimationController";
+import { ActionScheduler }      from "../engine/ActionScheduler";
+import { TTSEngine }            from "../tts/TTSEngine";
+import { TranscriptMapper }     from "../tts/TranscriptMapper";
+import { BoundaryTracker }      from "../tts/BoundaryTracker";
+import { TranscriptViewer }     from "./TranscriptViewer";
+
+// -----------------------------------------------------------------------------
+// PlayerState
+// -----------------------------------------------------------------------------
+
+export type PlayerState = "idle" | "playing" | "paused" | "finished";
+
+export type PlayerStateChangeHandler = (state: PlayerState) => void;
+
+// -----------------------------------------------------------------------------
+// WhiteboardPlayer — orchestrates all modules
+// -----------------------------------------------------------------------------
+
+export class WhiteboardPlayer {
+  private sceneGraph:          SceneGraph;
+  private positionResolver:    PositionResolver;
+  private renderer:            Renderer;
+  private animationController: AnimationController;
+  private actionScheduler:     ActionScheduler | null = null;
+  private ttsEngine:           TTSEngine;
+  private transcriptMapper:    TranscriptMapper;
+  private boundaryTracker:     BoundaryTracker;
+  private transcriptViewer:    TranscriptViewer | null = null;
+
+  private scene:        SceneDefinition | null = null;
+  private _state:       PlayerState = "idle";
+  private rafId:        number | null = null;
+  private onStateChange: PlayerStateChangeHandler | null = null;
+  /** Guard: prevents handleTTSEnd from running while seekTo is in progress. */
+  private _isSeeking = false;
+
+  constructor(canvas: HTMLCanvasElement) {
+    this.sceneGraph       = new SceneGraph();
+    const painter         = new ElementPainter();
+    this.positionResolver = new PositionResolver(canvas.width, canvas.height, this.sceneGraph);
+    this.renderer         = new Renderer(canvas, this.sceneGraph, painter, "white");
+    this.animationController = new AnimationController(this.renderer, this.sceneGraph);
+    this.ttsEngine        = new TTSEngine();
+    this.transcriptMapper = new TranscriptMapper();
+
+    this.boundaryTracker  = new BoundaryTracker(
+      (actionId) => this.handleAnimationStart(actionId),
+      (actionId) => this.animationController.onAnimationEnd(actionId)
+    );
+
+    // Start rAF loop — it runs forever, only redraws when dirty
+    this.startRafLoop();
+    this.renderer.start();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Public API
+  // ---------------------------------------------------------------------------
+
+  get state(): PlayerState { return this._state; }
+
+  onStateChanged(handler: PlayerStateChangeHandler): void {
+    this.onStateChange = handler;
+  }
+
+  setTranscriptViewer(viewer: TranscriptViewer): void {
+    this.transcriptViewer = viewer;
+    viewer.onSeekRequest((seekCharIndex) => this.seekTo(seekCharIndex));
+  }
+
+  /**
+   * Load a scene definition. Resets the canvas to blank.
+   */
+  loadScene(scene: SceneDefinition): void {
+    this.stop();
+    this.scene = scene;
+
+    // Reset engine state
+    this.sceneGraph.clear();
+    this.animationController.clear();
+    this.boundaryTracker.reset();
+
+    // Update canvas background
+    this.renderer.setBgColor(scene.canvas.background_color);
+
+    // Build lookup table and trigger mappings
+    this.actionScheduler = new ActionScheduler(scene.actions);
+    const mappings = this.transcriptMapper.buildMappings(scene.transcript, scene.actions);
+    this.boundaryTracker.loadMappings(mappings);
+
+    // Feed viewer
+    this.transcriptViewer?.loadScene(scene.transcript, mappings);
+
+    this.setState("idle");
+    this.renderer.forceRedraw();
+  }
+
+  /**
+   * Start playback from the beginning.
+   */
+  play(): void {
+    if (!this.scene) {
+      console.warn("WhiteboardPlayer.play(): no scene loaded");
+      return;
+    }
+
+    // Reset if previously finished
+    if (this._state === "finished") {
+      this.loadScene(this.scene);
+    }
+
+    this.setState("playing");
+
+    this.ttsEngine.speak(
+      this.scene.transcript,
+      (event) => {
+        this.boundaryTracker.handleBoundary(event);
+        // charOffset is 0 when playing from the beginning
+        this.transcriptViewer?.updateProgress(event.charIndex);
+      },
+      () => this.handleTTSEnd()
+    );
+  }
+
+  pause(): void {
+    if (this._state !== "playing") return;
+    this.ttsEngine.pause();
+    this.setState("paused");
+  }
+
+  resume(): void {
+    if (this._state !== "paused") return;
+    this.ttsEngine.resume();
+    this.setState("playing");
+  }
+
+  stop(): void {
+    this.ttsEngine.cancel();
+    this.animationController.flushAll();
+    this.setState("idle");
+  }
+
+  /**
+   * Jump to the given absolute character index in the transcript.
+   * Instantly applies all actions whose trigger phrase starts before seekCharIndex,
+   * then restarts TTS from that point.
+   */
+  seekTo(seekCharIndex: number): void {
+    if (!this.scene || !this.actionScheduler) return;
+
+    this._isSeeking = true;
+
+    // Cancel current TTS (fires onend, but _isSeeking guard prevents handleTTSEnd)
+    this.ttsEngine.cancel();
+
+    // Reset canvas and animation state
+    this.sceneGraph.clear();
+    this.animationController.clear();
+    this.boundaryTracker.reset();
+
+    // Re-apply defaults
+    this.renderer.setBgColor(this.scene.canvas.background_color);
+
+    // Reload mappings fresh
+    const mappings = this.transcriptMapper.buildMappings(this.scene.transcript, this.scene.actions);
+    this.boundaryTracker.loadMappings(mappings);
+
+    // Instant-apply all actions whose trigger phrase ends before seekCharIndex
+    for (const mapping of mappings) {
+      if (mapping.startCharIndex < seekCharIndex) {
+        const action = this.actionScheduler.getAction(mapping.actionId);
+        if (action) {
+          this.executeActionInstant(action);
+        }
+        this.boundaryTracker.markApplied(mapping.actionId);
+      }
+    }
+
+    // Force a redraw so the instantly-applied state shows
+    this.renderer.forceRedraw();
+
+    // Update viewer highlight state
+    this.transcriptViewer?.updateProgress(seekCharIndex);
+
+    // Set char offset so boundary events during resumed TTS map to absolute positions
+    this.boundaryTracker.setCharOffset(seekCharIndex);
+
+    this._isSeeking = false;
+
+    // Resume TTS from the seek point
+    this.setState("playing");
+    this.ttsEngine.speak(
+      this.scene.transcript.slice(seekCharIndex),
+      (event) => {
+        this.boundaryTracker.handleBoundary(event);
+        const absoluteChar = event.charIndex + seekCharIndex;
+        this.transcriptViewer?.updateProgress(absoluteChar);
+      },
+      () => this.handleTTSEnd()
+    );
+  }
+
+  /**
+   * Update the canvas size (e.g., on window resize).
+   * Note: this does NOT re-resolve element positions; that would require
+   * replaying the scene. Positions are baked at create time.
+   */
+  resize(width: number, height: number): void {
+    this.positionResolver.updateCanvasSize(width, height);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Internal: TTS end handler
+  // ---------------------------------------------------------------------------
+
+  private handleTTSEnd(): void {
+    if (this._isSeeking) return;
+
+    // Complete any actions that didn't get a boundary event for their end word
+    this.boundaryTracker.handleEnd();
+    // Force all animations to completion
+    this.animationController.flushAll();
+    this.setState("finished");
+  }
+
+  // ---------------------------------------------------------------------------
+  // Internal: action execution (called by BoundaryTracker via onStart)
+  // ---------------------------------------------------------------------------
+
+  private handleAnimationStart(actionId: string): void {
+    if (!this.scene || !this.actionScheduler) return;
+
+    const action = this.actionScheduler.getAction(actionId);
+    if (!action) {
+      console.warn(`WhiteboardPlayer: no action found for id "${actionId}"`);
+      return;
+    }
+
+    try {
+      this.executeAction(action);
+    } catch (err) {
+      console.error(`WhiteboardPlayer: error executing action "${actionId}":`, err);
+    }
+  }
+
+  private executeAction(action: WhiteboardAction): void {
+    if (!this.scene) return;
+
+    const animConfig: AnimationConfig = action.animation ?? this.scene.default_animation;
+
+    switch (action.action_type) {
+      case "create": {
+        const create = action as CreateAction;
+        const geometry = this.positionResolver.resolve(create.element);
+        this.sceneGraph.addElement(create.element, geometry);
+        this.animationController.onAnimationStart(
+          create.action_id,
+          create.element.id,
+          animConfig,
+          false
+        );
+        break;
+      }
+
+      case "edit": {
+        const edit = action as EditAction;
+        const el = this.sceneGraph.getElement(edit.element_id);
+        if (!el) {
+          console.warn(`WhiteboardPlayer: edit target "${edit.element_id}" not found in scene graph`);
+          return;
+        }
+        // Apply changes to the element definition
+        this.sceneGraph.updateElement(edit.element_id, edit.changes as Partial<typeof el.definition>);
+
+        // Use pop_highlight as the default for edits if no animation specified
+        const editAnim: AnimationConfig = action.animation ?? { type: "pop_highlight" };
+        this.animationController.onAnimationStart(
+          edit.action_id,
+          edit.element_id,
+          editAnim,
+          false
+        );
+        break;
+      }
+
+      case "delete": {
+        const del = action as DeleteAction;
+        const el = this.sceneGraph.getElement(del.element_id);
+        if (!el) {
+          console.warn(`WhiteboardPlayer: delete target "${del.element_id}" not found in scene graph`);
+          return;
+        }
+        const deleteAnim: AnimationConfig = action.animation ?? { type: "fade_in" };
+        this.animationController.onAnimationStart(
+          del.action_id,
+          del.element_id,
+          deleteAnim,
+          true  // isDeleting = true → AnimationController fades out and removes
+        );
+        break;
+      }
+    }
+  }
+
+  /**
+   * Apply an action immediately (no animation). Used during seekTo to fast-forward
+   * past actions. Elements are placed directly into the scene graph as visible.
+   */
+  private executeActionInstant(action: WhiteboardAction): void {
+    if (!this.scene) return;
+
+    switch (action.action_type) {
+      case "create": {
+        const create = action as CreateAction;
+        const geometry = this.positionResolver.resolve(create.element);
+        this.sceneGraph.addElement(create.element, geometry);
+        // Mark immediately visible (no animation)
+        const el = this.sceneGraph.getElement(create.element.id);
+        if (el) {
+          el.state   = "visible";
+          el.opacity = 1;
+          el.scale   = 1;
+          if ("drawProgress" in el) el.drawProgress = 1;
+          if ("visibleChars" in el) {
+            const chars = "content" in create.element ? (create.element as { content: string }).content.length : 0;
+            el.visibleChars = chars;
+          }
+        }
+        break;
+      }
+
+      case "edit": {
+        const edit = action as EditAction;
+        const el = this.sceneGraph.getElement(edit.element_id);
+        if (el) {
+          this.sceneGraph.updateElement(edit.element_id, edit.changes as Partial<typeof el.definition>);
+        }
+        break;
+      }
+
+      case "delete": {
+        const del = action as DeleteAction;
+        const el = this.sceneGraph.getElement(del.element_id);
+        if (el) {
+          this.sceneGraph.hardDelete(del.element_id);
+        }
+        break;
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Internal: rAF loop
+  // ---------------------------------------------------------------------------
+
+  private startRafLoop(): void {
+    const tick = (now: number) => {
+      this.animationController.tick(now);
+      this.rafId = requestAnimationFrame(tick);
+    };
+    this.rafId = requestAnimationFrame(tick);
+  }
+
+  private setState(state: PlayerState): void {
+    this._state = state;
+    this.onStateChange?.(state);
+  }
+
+  destroy(): void {
+    this.ttsEngine.cancel();
+    this.renderer.stop();
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+}
+import type { WhiteboardAction } from "../schema/types";
+
+// -----------------------------------------------------------------------------
+// ActionScheduler — simple lookup table: actionId → WhiteboardAction
+// WhiteboardPlayer uses this to retrieve the full action when BoundaryTracker
+// fires a start callback.
+// -----------------------------------------------------------------------------
+
+export class ActionScheduler {
+  private actionMap = new Map<string, WhiteboardAction>();
+
+  constructor(actions: WhiteboardAction[]) {
+    for (const action of actions) {
+      if (this.actionMap.has(action.action_id)) {
+        console.warn(`ActionScheduler: duplicate action_id "${action.action_id}" — keeping last`);
+      }
+      this.actionMap.set(action.action_id, action);
+    }
+  }
+
+  getAction(actionId: string): WhiteboardAction | undefined {
+    return this.actionMap.get(actionId);
+  }
+
+  getAllActions(): WhiteboardAction[] {
+    return Array.from(this.actionMap.values());
+  }
+}
+import type { AnimationConfig } from "../schema/types";
+import type { LiveElement, SceneGraph } from "./SceneGraph";
+import type { Renderer } from "./Renderer";
+
+// -----------------------------------------------------------------------------
+// ActiveAnimation — per-action animation state
+// -----------------------------------------------------------------------------
+
+interface ActiveAnimation {
+  actionId: string;
+  elementId: string;
+  config: AnimationConfig;
+  /** performance.now() when the animation started (trigger phrase first word) */
+  startTime: number;
+  /**
+   * performance.now() when the animation should complete (trigger phrase last word).
+   * null means we haven't heard the end word yet — we animate to a soft-cap of 0.8.
+   */
+  endTime: number | null;
+  progress: number;   // 0→1
+  isComplete: boolean;
+  /** For delete actions: fade OUT instead of in */
+  isDeleting: boolean;
+}
+
+// Soft-cap: how far (0–1) to animate when end time hasn't fired yet,
+// and how fast to get there (ms). This prevents elements appearing to "pause"
+// mid-phrase because TTS boundary events are sparse.
+const SOFTCAP_PROGRESS = 0.8;
+const SOFTCAP_DURATION_MS = 600;
+
+// -----------------------------------------------------------------------------
+// AnimationController
+// -----------------------------------------------------------------------------
+
+export class AnimationController {
+  private active = new Map<string, ActiveAnimation>();
+  private renderer: Renderer;
+  private sceneGraph: SceneGraph;
+
+  constructor(renderer: Renderer, sceneGraph: SceneGraph) {
+    this.renderer   = renderer;
+    this.sceneGraph = sceneGraph;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Public API — called by WhiteboardPlayer in response to BoundaryTracker events
+  // ---------------------------------------------------------------------------
+
+  /** Called when TTS reaches the first word of a CREATE or EDIT action's trigger phrase */
+  onAnimationStart(
+    actionId: string,
+    elementId: string,
+    config: AnimationConfig,
+    isDeleting = false
+  ): void {
+    this.active.set(actionId, {
+      actionId,
+      elementId,
+      config,
+      startTime: performance.now(),
+      endTime: null,
+      progress: 0,
+      isComplete: false,
+      isDeleting,
+    });
+
+    const el = this.sceneGraph.getElement(elementId);
+    if (!el) return;
+
+    el.state = "animating";
+
+    // Initialize animation starting state
+    if (!isDeleting) {
+      this.initStartState(el, config);
+    }
+    this.renderer.markDirty();
+  }
+
+  /** Called when TTS passes the last word of an action's trigger phrase */
+  onAnimationEnd(actionId: string): void {
+    const anim = this.active.get(actionId);
+    if (anim && !anim.isComplete) {
+      anim.endTime = performance.now();
+    }
+  }
+
+  /** Called by WhiteboardPlayer every rAF tick */
+  tick(now: number): void {
+    let anyActive = false;
+
+    for (const anim of this.active.values()) {
+      if (anim.isComplete) continue;
+
+      const el = this.sceneGraph.getElement(anim.elementId);
+      if (!el) {
+        anim.isComplete = true;
+        continue;
+      }
+
+      anyActive = true;
+      const rawProgress = this.computeProgress(anim, now);
+      const easedProgress = this.applyEasing(rawProgress, anim.config);
+
+      this.applyAnimationFrame(el, anim.config, easedProgress, anim.isDeleting);
+      anim.progress = rawProgress;
+
+      if (rawProgress >= 1.0) {
+        anim.isComplete = true;
+        this.finalizeAnimation(el, anim);
+      }
+    }
+
+    if (anyActive) {
+      this.renderer.markDirty();
+    }
+  }
+
+  /** Force all animations to completion — call on TTS end or user skip */
+  flushAll(): void {
+    for (const anim of this.active.values()) {
+      if (anim.isComplete) continue;
+      const el = this.sceneGraph.getElement(anim.elementId);
+      if (el) {
+        this.applyAnimationFrame(el, anim.config, 1.0, anim.isDeleting);
+        this.finalizeAnimation(el, anim);
+      }
+      anim.isComplete = true;
+    }
+    this.renderer.markDirty();
+  }
+
+  /** Returns true if any animation is currently running */
+  hasActiveAnimations(): boolean {
+    for (const anim of this.active.values()) {
+      if (!anim.isComplete) return true;
+    }
+    return false;
+  }
+
+  clear(): void {
+    this.active.clear();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Progress computation
+  // ---------------------------------------------------------------------------
+
+  private computeProgress(anim: ActiveAnimation, now: number): number {
+    if (anim.endTime !== null) {
+      // We know the target end time — use wall-clock progress
+      const duration = Math.max(anim.endTime - anim.startTime, 1);
+      return Math.min((now - anim.startTime) / duration, 1.0);
+    } else {
+      // End time not yet known — ramp to softcap quickly, then hold
+      const elapsed = now - anim.startTime;
+      return Math.min((elapsed / SOFTCAP_DURATION_MS) * SOFTCAP_PROGRESS, SOFTCAP_PROGRESS);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Easing
+  // ---------------------------------------------------------------------------
+
+  private applyEasing(p: number, config: AnimationConfig): number {
+    const easing = config.type === "fade_in" ? (config.easing ?? "ease_out") : "ease_out";
+    switch (easing) {
+      case "linear":       return p;
+      case "ease_in":      return p * p;
+      case "ease_out":     return 1 - (1 - p) * (1 - p);
+      case "ease_in_out":  return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      default:             return 1 - (1 - p) * (1 - p);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Animation frame application — mutates LiveElement properties
+  // ---------------------------------------------------------------------------
+
+  private initStartState(el: LiveElement, config: AnimationConfig): void {
+    switch (config.type) {
+      case "fade_in":
+        el.opacity = 0;
+        el.scale   = 1;
+        break;
+      case "pop_in":
+        el.opacity = 0;
+        el.scale   = 0;
+        break;
+      case "pop_highlight":
+        el.opacity = 1;  // element is already visible
+        el.scale   = 1;
+        break;
+      case "draw_in":
+        el.opacity      = 1;
+        el.drawProgress = 0;
+        el.scale        = 1;
+        break;
+      case "typewriter":
+        el.opacity      = 1;
+        el.visibleChars = 0;
+        el.scale        = 1;
+        break;
+    }
+  }
+
+  private applyAnimationFrame(
+    el: LiveElement,
+    config: AnimationConfig,
+    p: number,        // eased 0→1
+    isDeleting: boolean
+  ): void {
+    // For delete: reverse fade
+    if (isDeleting) {
+      el.opacity = 1 - p;
+      return;
+    }
+
+    switch (config.type) {
+      case "fade_in":
+        el.opacity = p;
+        break;
+
+      case "pop_in": {
+        // Spring: 0 → 1.15 → 1.0
+        el.opacity = Math.min(p * 3, 1);  // snap opaque quickly
+        if (p < 0.7) {
+          el.scale = p / 0.7;
+        } else {
+          // Overshoot and settle: 1.0 → 1.15 → 1.0
+          const t = (p - 0.7) / 0.3;
+          el.scale = 1 + 0.15 * Math.sin(t * Math.PI);
+        }
+        break;
+      }
+
+      case "pop_highlight": {
+        // Element is already visible; scale 1 → 1.2 → 1
+        el.opacity = 1;
+        el.scale   = 1 + 0.2 * Math.sin(p * Math.PI);
+        break;
+      }
+
+      case "draw_in":
+        el.drawProgress = p;
+        el.opacity      = 1;
+        break;
+
+      case "typewriter": {
+        const total = "content" in el.definition ? el.definition.content.length : 0;
+        el.visibleChars = Math.floor(p * total);
+        el.opacity      = 1;
+        break;
+      }
+    }
+  }
+
+  private finalizeAnimation(el: LiveElement, anim: ActiveAnimation): void {
+    if (anim.isDeleting) {
+      el.state   = "deleted";
+      el.opacity = 0;
+      this.sceneGraph.hardDelete(anim.elementId);
+    } else {
+      el.state   = "visible";
+      el.opacity = 1;
+      el.scale   = 1;
+      // Clear animation-specific fields
+      delete el.drawProgress;
+      if (el.visibleChars !== undefined) {
+        // Keep at full content length
+        if ("content" in el.definition) {
+          el.visibleChars = el.definition.content.length;
+        }
+      }
+    }
+  }
+}
+import type { ShapeElement, TextElement } from "../schema/types";
+import type { LiveElement } from "./SceneGraph";
+import { COLOR_MAP, FONT_SIZE_MAP, WHITEBOARD_FONT_FAMILY } from "../schema/colors";
+
+// -----------------------------------------------------------------------------
+// ElementPainter — draws a single LiveElement onto a Canvas 2D context
+// -----------------------------------------------------------------------------
+
+export class ElementPainter {
+  paint(ctx: CanvasRenderingContext2D, el: LiveElement): void {
+    if (el.state === "hidden" || el.state === "deleted") return;
+
+    const { x, y, width: w, height: h, rotation } = el.resolved;
+
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, Math.min(1, el.opacity));
+
+    // Apply scale transform (used by pop_in / pop_highlight) centered on element
+    if (el.scale !== 1) {
+      const cx = x + w / 2;
+      const cy = y + h / 2;
+      ctx.translate(cx, cy);
+      ctx.scale(el.scale, el.scale);
+      ctx.translate(-cx, -cy);
+    }
+
+    // Apply rotation transform centered on element
+    if (rotation !== 0) {
+      const cx = x + w / 2;
+      const cy = y + h / 2;
+      ctx.translate(cx, cy);
+      ctx.rotate((rotation * Math.PI) / 180);
+      ctx.translate(-cx, -cy);
+    }
+
+    if (el.definition.element_type === "shape") {
+      this.paintShape(ctx, el.definition, el, x, y, w, h);
+    } else {
+      this.paintText(ctx, el.definition, el, x, y, w);
+    }
+
+    ctx.restore();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Shape painting
+  // ---------------------------------------------------------------------------
+
+  private paintShape(
+    ctx: CanvasRenderingContext2D,
+    def: ShapeElement,
+    el: LiveElement,
+    x: number,
+    y: number,
+    w: number,
+    h: number
+  ): void {
+    ctx.fillStyle   = COLOR_MAP[def.fill_color];
+    ctx.strokeStyle = COLOR_MAP[def.border_color];
+    ctx.lineWidth   = def.border_width ?? 2;
+    ctx.lineJoin    = "round";
+    ctx.lineCap     = "round";
+
+    // draw_in: clip from left to right (or top to bottom)
+    if (el.drawProgress !== undefined && el.drawProgress < 1) {
+      const progress = el.drawProgress;
+      ctx.save();
+      if (def.shape === "line" || def.shape === "arrow") {
+        // For lines/arrows clip along the line direction
+        ctx.beginPath();
+        ctx.rect(x, y - 2, w * progress, h + 4);
+      } else {
+        ctx.beginPath();
+        ctx.rect(x, y, w * progress, h);
+      }
+      ctx.clip();
+    }
+
+    ctx.beginPath();
+
+    switch (def.shape) {
+      case "rectangle":
+        ctx.rect(x, y, w, h);
+        ctx.fill();
+        ctx.stroke();
+        break;
+
+      case "circle":
+        ctx.ellipse(x + w / 2, y + h / 2, w / 2, h / 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        break;
+
+      case "triangle":
+        ctx.moveTo(x + w / 2, y);
+        ctx.lineTo(x + w,     y + h);
+        ctx.lineTo(x,         y + h);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        break;
+
+      case "line":
+        ctx.moveTo(x,     y + h / 2);
+        ctx.lineTo(x + w, y + h / 2);
+        ctx.stroke();
+        break;
+
+      case "arrow":
+        this.paintArrow(ctx, x, y, w, h);
+        break;
+    }
+
+    if (el.drawProgress !== undefined && el.drawProgress < 1) {
+      ctx.restore();
+    }
+  }
+
+  private paintArrow(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number
+  ): void {
+    const headW = Math.min(w * 0.3,  24);
+    const headH = Math.min(h * 0.8,  h);
+    const midY  = y + h / 2;
+    const shaftEnd = x + w - headW;
+
+    // Shaft
+    ctx.beginPath();
+    ctx.moveTo(x, midY);
+    ctx.lineTo(shaftEnd, midY);
+    ctx.stroke();
+
+    // Arrowhead (filled triangle)
+    ctx.beginPath();
+    ctx.moveTo(x + w,     midY);
+    ctx.lineTo(shaftEnd,  midY - headH / 2);
+    ctx.lineTo(shaftEnd,  midY + headH / 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Text painting
+  // ---------------------------------------------------------------------------
+
+  private paintText(
+    ctx: CanvasRenderingContext2D,
+    def: TextElement,
+    el: LiveElement,
+    x: number,
+    y: number,
+    maxW: number
+  ): void {
+    const fontSize = FONT_SIZE_MAP[def.font_size];
+    const fontStyle = [
+      def.italic ? "italic" : "",
+      def.bold   ? "bold"   : "normal",
+    ].filter(Boolean).join(" ");
+
+    ctx.font          = `${fontStyle} ${fontSize}px ${WHITEBOARD_FONT_FAMILY}`;
+    ctx.fillStyle     = COLOR_MAP[def.color];
+    ctx.textBaseline  = "top";
+    ctx.textAlign     = "left";
+
+    // Apply typewriter: slice content to visibleChars
+    const content = el.visibleChars !== undefined
+      ? def.content.slice(0, el.visibleChars)
+      : def.content;
+
+    if (!content) return;
+
+    const lineHeight = fontSize * 1.35;
+    const lines = this.wordWrap(ctx, content, maxW);
+
+    lines.forEach((line, i) => {
+      const lineY = y + i * lineHeight;
+      ctx.fillText(line, x, lineY);
+
+      if (def.underline) {
+        const lineWidth = ctx.measureText(line).width;
+        ctx.save();
+        ctx.strokeStyle = COLOR_MAP[def.color];
+        ctx.lineWidth   = Math.max(1, fontSize / 14);
+        ctx.beginPath();
+        ctx.moveTo(x, lineY + fontSize + 2);
+        ctx.lineTo(x + lineWidth, lineY + fontSize + 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    });
+  }
+
+  private wordWrap(
+    ctx: CanvasRenderingContext2D,
+    text: string,
+    maxWidth: number
+  ): string[] {
+    const words = text.split(" ");
+    const lines: string[] = [];
+    let current = "";
+
+    for (const word of words) {
+      const test = current ? `${current} ${word}` : word;
+      if (ctx.measureText(test).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    }
+    if (current) lines.push(current);
+    return lines;
+  }
+}
+import type {
+  CanvasPosition,
+  RelativeElementPosition,
+  WhiteboardElement,
+  AnchorPoint,
+  RelativePlacement,
+} from "../schema/types";
+import type { ResolvedGeometry, SceneGraph } from "./SceneGraph";
+
+// -----------------------------------------------------------------------------
+// Anchor → offset from top-left corner of element's bounding box
+// -----------------------------------------------------------------------------
+
+function anchorToOffset(
+  anchor: AnchorPoint,
+  width: number,
+  height: number
+): { x: number; y: number } {
+  const half_w = width / 2;
+  const half_h = height / 2;
+  const map: Record<AnchorPoint, { x: number; y: number }> = {
+    center:       { x: half_w, y: half_h },
+    top:          { x: half_w, y: 0       },
+    bottom:       { x: half_w, y: height  },
+    left:         { x: 0,      y: half_h  },
+    right:        { x: width,  y: half_h  },
+    top_left:     { x: 0,      y: 0       },
+    top_right:    { x: width,  y: 0       },
+    bottom_left:  { x: 0,      y: height  },
+    bottom_right: { x: width,  y: height  },
+  };
+  return map[anchor];
+}
+
+// -----------------------------------------------------------------------------
+// Placement direction vectors
+// dx: +1 = right, -1 = left, 0 = no horizontal displacement
+// dy: +1 = down,  -1 = up,   0 = no vertical displacement
+// -----------------------------------------------------------------------------
+
+const PLACEMENT_VECTORS: Record<RelativePlacement, { dx: number; dy: number }> = {
+  right_of:        { dx:  1, dy:  0 },
+  left_of:         { dx: -1, dy:  0 },
+  above:           { dx:  0, dy: -1 },
+  below:           { dx:  0, dy:  1 },
+  top_right_of:    { dx:  1, dy: -1 },
+  top_left_of:     { dx: -1, dy: -1 },
+  bottom_right_of: { dx:  1, dy:  1 },
+  bottom_left_of:  { dx: -1, dy:  1 },
+  center_of:       { dx:  0, dy:  0 },
+  overlapping:     { dx:  0, dy:  0 },
+};
+
+// -----------------------------------------------------------------------------
+// PositionResolver
+// -----------------------------------------------------------------------------
+
+export class PositionResolver {
+  private canvasWidth: number;
+  private canvasHeight: number;
+  private sceneGraph: SceneGraph;
+
+  constructor(canvasWidth: number, canvasHeight: number, sceneGraph: SceneGraph) {
+    this.canvasWidth  = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.sceneGraph   = sceneGraph;
+  }
+
+  updateCanvasSize(width: number, height: number): void {
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+  }
+
+  resolve(element: WhiteboardElement): ResolvedGeometry {
+    const width  = (("width_percent"  in element ? element.width_percent  : 20) / 100) * this.canvasWidth;
+    const height = (("height_percent" in element ? element.height_percent : 10) / 100) * this.canvasHeight;
+    const rotation = ("rotation_degrees" in element ? element.rotation_degrees : 0) ?? 0;
+
+    if (element.position.type === "canvas") {
+      return this.resolveCanvas(element.position, width, height, rotation);
+    } else {
+      return this.resolveRelative(element.position, width, height, rotation, element.id);
+    }
+  }
+
+  private resolveCanvas(
+    pos: CanvasPosition,
+    width: number,
+    height: number,
+    rotation: number
+  ): ResolvedGeometry {
+    const offset = anchorToOffset(pos.anchor, width, height);
+    const cx = (pos.x_percent / 100) * this.canvasWidth;
+    const cy = (pos.y_percent / 100) * this.canvasHeight;
+    return {
+      x: cx - offset.x,
+      y: cy - offset.y,
+      width,
+      height,
+      rotation,
+    };
+  }
+
+  private resolveRelative(
+    pos: RelativeElementPosition,
+    width: number,
+    height: number,
+    rotation: number,
+    selfId: string
+  ): ResolvedGeometry {
+    const ref = this.sceneGraph.getElement(pos.relative_to);
+    if (!ref) {
+      throw new Error(
+        `PositionResolver: element "${selfId}" references unknown element "${pos.relative_to}". ` +
+        `Ensure the referenced element is created earlier in the actions list.`
+      );
+    }
+
+    const rg = ref.resolved;
+    const gap = ((pos.gap_percent ?? 2) / 100) * Math.min(this.canvasWidth, this.canvasHeight);
+    const { dx, dy } = PLACEMENT_VECTORS[pos.placement];
+
+    let x: number;
+    let y: number;
+
+    if (pos.placement === "center_of" || pos.placement === "overlapping") {
+      // Center this element over the reference
+      x = rg.x + rg.width  / 2 - width  / 2;
+      y = rg.y + rg.height / 2 - height / 2;
+    } else if (Math.abs(dx) > 0 && Math.abs(dy) === 0) {
+      // Pure horizontal placement (right_of / left_of)
+      x = dx > 0
+        ? rg.x + rg.width + gap        // place to the right
+        : rg.x - width - gap;          // place to the left
+
+      // Secondary-axis: vertical alignment
+      y = this.secondaryAlign("y", pos.align, rg, height);
+    } else if (Math.abs(dy) > 0 && Math.abs(dx) === 0) {
+      // Pure vertical placement (above / below)
+      y = dy > 0
+        ? rg.y + rg.height + gap       // place below
+        : rg.y - height - gap;         // place above
+
+      // Secondary-axis: horizontal alignment
+      x = this.secondaryAlign("x", pos.align, rg, width);
+    } else {
+      // Diagonal placement (top_right_of etc.)
+      x = dx > 0
+        ? rg.x + rg.width + gap
+        : rg.x - width - gap;
+      y = dy > 0
+        ? rg.y + rg.height + gap
+        : rg.y - height - gap;
+    }
+
+    return { x, y, width, height, rotation };
+  }
+
+  /**
+   * Compute the secondary-axis coordinate so that this element is aligned
+   * with the reference element according to the given anchor.
+   * Defaults to center-alignment if no anchor is specified.
+   */
+  private secondaryAlign(
+    axis: "x" | "y",
+    anchor: AnchorPoint | undefined,
+    ref: ResolvedGeometry,
+    size: number
+  ): number {
+    if (!anchor) {
+      // Default: center-align on secondary axis
+      return axis === "x"
+        ? ref.x + ref.width  / 2 - size / 2
+        : ref.y + ref.height / 2 - size / 2;
+    }
+
+    if (axis === "x") {
+      const isLeft   = anchor === "left"   || anchor === "top_left"    || anchor === "bottom_left";
+      const isRight  = anchor === "right"  || anchor === "top_right"   || anchor === "bottom_right";
+      if (isLeft)  return ref.x;
+      if (isRight) return ref.x + ref.width - size;
+      return ref.x + ref.width / 2 - size / 2;
+    } else {
+      const isTop    = anchor === "top"    || anchor === "top_left"    || anchor === "top_right";
+      const isBottom = anchor === "bottom" || anchor === "bottom_left" || anchor === "bottom_right";
+      if (isTop)    return ref.y;
+      if (isBottom) return ref.y + ref.height - size;
+      return ref.y + ref.height / 2 - size / 2;
+    }
+  }
+}
+import type { NamedColor } from "../schema/types";
+import type { SceneGraph } from "./SceneGraph";
+import type { ElementPainter } from "./ElementPainter";
+import { COLOR_MAP } from "../schema/colors";
+
+// -----------------------------------------------------------------------------
+// Renderer — dirty-flag canvas draw loop
+// Only redraws when markDirty() is called (e.g. by AnimationController).
+// When nothing is animating the canvas is not touched, saving CPU/GPU.
+// -----------------------------------------------------------------------------
+
+export class Renderer {
+  private ctx: CanvasRenderingContext2D;
+  private isDirty = false;
+  private rafId: number | null = null;
+  private canvas: HTMLCanvasElement;
+  private sceneGraph: SceneGraph;
+  private painter: ElementPainter;
+  private bgColor: NamedColor;
+
+  constructor(canvas: HTMLCanvasElement, sceneGraph: SceneGraph, painter: ElementPainter, bgColor: NamedColor) {
+    this.canvas     = canvas;
+    this.sceneGraph = sceneGraph;
+    this.painter    = painter;
+    this.bgColor    = bgColor;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Renderer: could not get 2D context from canvas");
+    this.ctx = ctx;
+  }
+
+  setBgColor(color: NamedColor): void {
+    this.bgColor = color;
+    this.markDirty();
+  }
+
+  markDirty(): void {
+    this.isDirty = true;
+  }
+
+  /** Force an immediate redraw regardless of dirty flag */
+  forceRedraw(): void {
+    this.isDirty = true;
+    this.draw();
+  }
+
+  start(): void {
+    if (this.rafId !== null) return; // already running
+
+    const loop = () => {
+      if (this.isDirty) {
+        this.draw();
+        this.isDirty = false;
+      }
+      this.rafId = requestAnimationFrame(loop);
+    };
+    this.rafId = requestAnimationFrame(loop);
+  }
+
+  stop(): void {
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
+  private draw(): void {
+    const { width, height } = this.canvas;
+
+    // Clear
+    this.ctx.clearRect(0, 0, width, height);
+
+    // Background
+    this.ctx.fillStyle = COLOR_MAP[this.bgColor];
+    this.ctx.fillRect(0, 0, width, height);
+
+    // Paint all non-deleted elements in z-order (insertion order)
+    for (const el of this.sceneGraph.getAllVisible()) {
+      this.painter.paint(this.ctx, el);
+    }
+  }
+
+  /** Resize the canvas to fit its CSS display size (call on window resize) */
+  fitToContainer(): void {
+    const parent = this.canvas.parentElement;
+    if (!parent) return;
+    const { width, height } = parent.getBoundingClientRect();
+    this.canvas.width  = width;
+    this.canvas.height = height;
+    this.markDirty();
+  }
+}
+import type { WhiteboardElement } from "../schema/types";
+
+// -----------------------------------------------------------------------------
+// ResolvedGeometry — absolute pixel coordinates on the canvas
+// -----------------------------------------------------------------------------
+
+export interface ResolvedGeometry {
+  x: number;       // canvas pixels, top-left corner of element's bounding box
+  y: number;
+  width: number;
+  height: number;
+  rotation: number; // degrees
+}
+
+// -----------------------------------------------------------------------------
+// LiveElement — runtime state of a single element
+// -----------------------------------------------------------------------------
+
+export type ElementState = "hidden" | "animating" | "visible" | "deleted";
+
+export interface LiveElement {
+  /** The element's definition (can be mutated by EditAction) */
+  definition: WhiteboardElement;
+  /** Resolved absolute pixel geometry */
+  resolved: ResolvedGeometry;
+  /** Lifecycle state driven by AnimationController */
+  state: ElementState;
+  /** Current opacity 0–1, driven by AnimationController */
+  opacity: number;
+  /** 0–1 animation progress, driven by AnimationController */
+  animationProgress: number;
+  /** Current scale factor for pop animations. 1.0 = normal size */
+  scale: number;
+  /** For typewriter animation: how many characters to render */
+  visibleChars?: number;
+  /** For draw_in animation: 0–1 clip progress */
+  drawProgress?: number;
+}
+
+// -----------------------------------------------------------------------------
+// SceneGraph — the authoritative store of all live elements
+// -----------------------------------------------------------------------------
+
+export class SceneGraph {
+  /** Insertion order is maintained for paint z-ordering */
+  private elements = new Map<string, LiveElement>();
+
+  addElement(definition: WhiteboardElement, resolved: ResolvedGeometry): void {
+    if (this.elements.has(definition.id)) {
+      console.warn(`SceneGraph: element "${definition.id}" already exists — replacing`);
+    }
+    this.elements.set(definition.id, {
+      definition,
+      resolved,
+      state: "hidden",
+      opacity: 0,
+      animationProgress: 0,
+      scale: 1,
+    });
+  }
+
+  getElement(id: string): LiveElement | undefined {
+    return this.elements.get(id);
+  }
+
+  /**
+   * Apply a partial property patch to an element's definition.
+   * Position changes are NOT re-resolved here — call PositionResolver separately
+   * if you need to update geometry.
+   */
+  updateElement(id: string, changes: Partial<WhiteboardElement>): void {
+    const el = this.elements.get(id);
+    if (!el) {
+      console.warn(`SceneGraph: updateElement called on unknown id "${id}"`);
+      return;
+    }
+    // Deep merge: spread existing definition then apply changes
+    el.definition = { ...el.definition, ...changes } as WhiteboardElement;
+  }
+
+  updateGeometry(id: string, resolved: ResolvedGeometry): void {
+    const el = this.elements.get(id);
+    if (!el) return;
+    el.resolved = resolved;
+  }
+
+  markDeleted(id: string): void {
+    const el = this.elements.get(id);
+    if (el) el.state = "deleted";
+  }
+
+  hardDelete(id: string): void {
+    this.elements.delete(id);
+  }
+
+  /** Returns all non-deleted elements in insertion (z) order */
+  getAllVisible(): LiveElement[] {
+    const result: LiveElement[] = [];
+    for (const el of this.elements.values()) {
+      if (el.state !== "deleted") {
+        result.push(el);
+      }
+    }
+    return result;
+  }
+
+  /** Returns IDs in insertion order (for z-ordering logic) */
+  getZOrder(): string[] {
+    return Array.from(this.elements.keys());
+  }
+
+  /** Returns all element IDs (including deleted) */
+  getAllIds(): string[] {
+    return Array.from(this.elements.keys());
+  }
+
+  clear(): void {
+    this.elements.clear();
+  }
+}
+import type { SceneDefinition } from "../schema/types";
+
+// -----------------------------------------------------------------------------
+// SceneLoader — loads and validates scene JSON
+//
+// Validation is intentionally lightweight (no Ajv dependency at runtime) —
+// we check the critical structural constraints and surface clear errors.
+// A full Ajv schema could be plugged in here for strict validation.
+// -----------------------------------------------------------------------------
+
+export class SceneLoader {
+  /**
+   * Fetch a scene JSON file from a URL and validate it.
+   */
+  static async loadFromUrl(url: string): Promise<SceneDefinition> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`SceneLoader: failed to fetch "${url}" — HTTP ${response.status}`);
+    }
+    const json = await response.json();
+    return SceneLoader.validate(json);
+  }
+
+  /**
+   * Parse and validate a raw JSON string.
+   */
+  static loadFromString(jsonString: string): SceneDefinition {
+    let json: unknown;
+    try {
+      json = JSON.parse(jsonString);
+    } catch (e) {
+      throw new Error(`SceneLoader: invalid JSON — ${(e as Error).message}`);
+    }
+    return SceneLoader.validate(json);
+  }
+
+  /**
+   * Validate a plain object as a SceneDefinition.
+   * Throws a descriptive error if validation fails.
+   */
+  static validate(obj: unknown): SceneDefinition {
+    if (typeof obj !== "object" || obj === null) {
+      throw new Error("SceneLoader: scene must be a JSON object");
+    }
+
+    const scene = obj as Record<string, unknown>;
+
+    if (scene["version"] !== "1.0") {
+      throw new Error(`SceneLoader: unsupported version "${scene["version"]}" — expected "1.0"`);
+    }
+    if (typeof scene["transcript"] !== "string" || scene["transcript"].length === 0) {
+      throw new Error('SceneLoader: "transcript" must be a non-empty string');
+    }
+    if (!Array.isArray(scene["actions"])) {
+      throw new Error('SceneLoader: "actions" must be an array');
+    }
+
+    // Check trigger phrases are substrings of the transcript
+    const transcript = scene["transcript"] as string;
+    const actions = scene["actions"] as Array<Record<string, unknown>>;
+    const actionIds = new Set<string>();
+
+    for (const action of actions) {
+      const id = action["action_id"] as string;
+      if (!id) throw new Error("SceneLoader: each action must have an action_id");
+      if (actionIds.has(id)) {
+        throw new Error(`SceneLoader: duplicate action_id "${id}"`);
+      }
+      actionIds.add(id);
+
+      const phrase = action["trigger_phrase"] as string;
+      if (!phrase) throw new Error(`SceneLoader: action "${id}" missing trigger_phrase`);
+      if (!transcript.includes(phrase)) {
+        console.warn(
+          `SceneLoader: trigger_phrase for action "${id}" not found in transcript.\n` +
+          `  Phrase: "${phrase}"`
+        );
+      }
+    }
+
+    return scene as unknown as SceneDefinition;
+  }
+}
+import type { NamedColor, FontSize } from "./types";
+
+/**
+ * Maps NamedColor values to CSS color strings.
+ * Chosen to look like whiteboard markers: high contrast, slightly saturated.
+ */
+export const COLOR_MAP: Record<NamedColor, string> = {
+  white:  "#FFFFFF",
+  black:  "#1A1A1A",
+  red:    "#E53935",
+  blue:   "#1E88E5",
+  green:  "#43A047",
+  yellow: "#FDD835",
+  orange: "#FB8C00",
+  purple: "#8E24AA",
+};
+
+/**
+ * Maps FontSize tokens to pixel values.
+ * Designed to be legible on a whiteboard at typical viewing distances.
+ */
+export const FONT_SIZE_MAP: Record<FontSize, number> = {
+  small:  12,
+  medium: 18,
+  large:  28,
+  xlarge: 40,
+};
+
+/**
+ * The whiteboard font stack. Prefers handwriting/chalk-style fonts.
+ * Falls back to system fonts that look somewhat informal.
+ */
+export const WHITEBOARD_FONT_FAMILY =
+  '"Segoe Print", "Chalkboard SE", "Comic Sans MS", cursive, sans-serif';
+// =============================================================================
+// WHITEBOARD AI — Framework Schema Types
+// Version 1.0
+//
+// This file is the LLM contract. Every scene definition JSON must conform to
+// the types defined here. Keep property names descriptive and human-readable.
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Primitives
+// -----------------------------------------------------------------------------
+
+export type NamedColor =
+  | "white"
+  | "black"
+  | "red"
+  | "blue"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "purple";
+
+export type ShapeType =
+  | "rectangle"
+  | "triangle"
+  | "circle"
+  | "line"
+  | "arrow";
+
+export type AnchorPoint =
+  | "center"
+  | "top"
+  | "bottom"
+  | "left"
+  | "right"
+  | "top_left"
+  | "top_right"
+  | "bottom_left"
+  | "bottom_right";
+
+export type RelativePlacement =
+  | "right_of"
+  | "left_of"
+  | "above"
+  | "below"
+  | "top_right_of"
+  | "top_left_of"
+  | "bottom_right_of"
+  | "bottom_left_of"
+  | "center_of"
+  | "overlapping";
+
+export type FontSize = "small" | "medium" | "large" | "xlarge";
+
+// -----------------------------------------------------------------------------
+// Positioning — two modes, no pixel math required
+// -----------------------------------------------------------------------------
+
+/**
+ * Place the element's own anchor point at (x_percent, y_percent) of the canvas.
+ * Example: { type:"canvas", x_percent:50, y_percent:50, anchor:"center" }
+ * places the element's center at the center of the canvas.
+ */
+export interface CanvasPosition {
+  type: "canvas";
+  /** 0–100: horizontal position as a percentage of canvas width */
+  x_percent: number;
+  /** 0–100: vertical position as a percentage of canvas height */
+  y_percent: number;
+  /** Which point of THIS element is placed at (x_percent, y_percent) */
+  anchor: AnchorPoint;
+}
+
+/**
+ * Place the element relative to another named element.
+ * Example: { type:"relative", relative_to:"house_body", placement:"above", gap_percent:0, align:"center" }
+ * places the element directly above the house_body, horizontally centered.
+ *
+ * IMPORTANT: The referenced element must be created BEFORE this one in the actions list.
+ */
+export interface RelativeElementPosition {
+  type: "relative";
+  /** ID of the element to position relative to */
+  relative_to: string;
+  /** Where to place this element relative to the reference */
+  placement: RelativePlacement;
+  /** Gap between this element and the reference, as % of canvas min-dimension (default: 2) */
+  gap_percent?: number;
+  /** Secondary-axis alignment (e.g., align tops when using right_of). Default: center */
+  align?: AnchorPoint;
+}
+
+export type Position = CanvasPosition | RelativeElementPosition;
+
+// -----------------------------------------------------------------------------
+// Elements
+// -----------------------------------------------------------------------------
+
+export interface ShapeElement {
+  id: string;
+  element_type: "shape";
+  shape: ShapeType;
+  /** Width as a percentage of canvas width (0–100) */
+  width_percent: number;
+  /** Height as a percentage of canvas height (0–100) */
+  height_percent: number;
+  fill_color: NamedColor;
+  border_color: NamedColor;
+  /** Border stroke width in pixels. Default: 2 */
+  border_width?: number;
+  /** Clockwise rotation in degrees. Default: 0 */
+  rotation_degrees?: number;
+  position: Position;
+  /** Runtime only — do not set in JSON */
+  opacity?: number;
+}
+
+export interface TextElement {
+  id: string;
+  element_type: "text";
+  content: string;
+  font_size: FontSize;
+  color: NamedColor;
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+  /** Max text wrap width as % of canvas width. Default: 20 */
+  max_width_percent?: number;
+  position: Position;
+  /** Runtime only — do not set in JSON */
+  opacity?: number;
+}
+
+export type WhiteboardElement = ShapeElement | TextElement;
+
+// -----------------------------------------------------------------------------
+// Animations
+// -----------------------------------------------------------------------------
+
+export interface FadeInAnimation {
+  type: "fade_in";
+  easing?: "linear" | "ease_in" | "ease_out" | "ease_in_out";
+}
+
+/** Scale 0 → 1.15 → 1.0 with a spring overshoot. Good for new elements. */
+export interface PopInAnimation {
+  type: "pop_in";
+}
+
+/**
+ * Scale 1 → 1.2 → 1.0. Element stays visible (opacity=1).
+ * Use for EDIT actions to signal that a property changed.
+ */
+export interface PopHighlightAnimation {
+  type: "pop_highlight";
+}
+
+/** Reveal the shape by expanding a clip rect from left-to-right or top-to-bottom. */
+export interface DrawInAnimation {
+  type: "draw_in";
+  direction?: "left_to_right" | "top_to_bottom";
+}
+
+/** Reveal text one character at a time. Only valid for TextElement. */
+export interface TypewriterAnimation {
+  type: "typewriter";
+}
+
+export type AnimationConfig =
+  | FadeInAnimation
+  | PopInAnimation
+  | PopHighlightAnimation
+  | DrawInAnimation
+  | TypewriterAnimation;
+
+// -----------------------------------------------------------------------------
+// Actions
+// -----------------------------------------------------------------------------
+
+/**
+ * Create a new element.
+ * The animation starts when TTS speaks the first word of trigger_phrase
+ * and completes when TTS finishes the last word of trigger_phrase.
+ * Multiple create actions can share the same trigger_phrase.
+ */
+export interface CreateAction {
+  action_id: string;
+  action_type: "create";
+  /** Exact substring of the scene's transcript. Case-sensitive. */
+  trigger_phrase: string;
+  element: WhiteboardElement;
+  /** If omitted, the scene's default_animation is used */
+  animation?: AnimationConfig;
+}
+
+/**
+ * Edit properties of an existing element.
+ * Only the fields in `changes` are updated; all other fields stay the same.
+ * Default animation is pop_highlight (scale up/down to draw attention to the change).
+ */
+export interface EditAction {
+  action_id: string;
+  action_type: "edit";
+  trigger_phrase: string;
+  element_id: string;
+  changes: Partial<Omit<ShapeElement, "id" | "element_type"> & Omit<TextElement, "id" | "element_type">>;
+  animation?: AnimationConfig;
+}
+
+/**
+ * Remove an element from the scene.
+ * The element fades out over the trigger phrase duration, then is removed.
+ */
+export interface DeleteAction {
+  action_id: string;
+  action_type: "delete";
+  trigger_phrase: string;
+  element_id: string;
+  animation?: AnimationConfig;
+}
+
+export type WhiteboardAction = CreateAction | EditAction | DeleteAction;
+
+// -----------------------------------------------------------------------------
+// Scene — top-level document
+// -----------------------------------------------------------------------------
+
+export interface CanvasConfig {
+  aspect_ratio: "16:9" | "4:3" | "1:1";
+  background_color: NamedColor;
+}
+
+/**
+ * The top-level scene definition. This is what an LLM generates.
+ *
+ * Rules:
+ * - trigger_phrase values must be exact substrings of transcript
+ * - Elements referenced via relative positioning must appear in actions earlier
+ *   in the array (dependency order)
+ * - action_id values must be unique
+ * - element id values must be unique
+ */
+export interface SceneDefinition {
+  version: "1.0";
+  title?: string;
+  canvas: CanvasConfig;
+  /** The full text to be read aloud by the text-to-speech engine */
+  transcript: string;
+  /** Default animation used when an action doesn't specify one */
+  default_animation: AnimationConfig;
+  actions: WhiteboardAction[];
+}
+import type { TriggerMapping } from "./TranscriptMapper";
+
+// -----------------------------------------------------------------------------
+// BoundaryTracker
+//
+// Listens to SpeechSynthesisUtterance.onboundary events.
+// Each event carries a charIndex pointing to the word that TTS just started.
+//
+// We fire:
+//   onStart(actionId)    when charIndex >= mapping.startCharIndex  (first time)
+//   onComplete(actionId) when charIndex >  mapping.endCharIndex    (first time)
+//
+// Seeking support: when TTS is restarted from transcript.slice(N), the browser
+// resets charIndex to 0. Call setCharOffset(N) before speaking so that all
+// incoming charIndex values are shifted back to absolute transcript positions.
+//
+// Note: onboundary is reliable on Chrome desktop. On Firefox it may not fire
+// for every word. The animation system degrades gracefully — animations still
+// run, just potentially at a slightly wrong time.
+// -----------------------------------------------------------------------------
+
+export class BoundaryTracker {
+  private mappings: TriggerMapping[] = [];
+  private startedActions   = new Set<string>();
+  private completedActions = new Set<string>();
+  private onStart:    (actionId: string) => void;
+  private onComplete: (actionId: string) => void;
+  /** Added to every event.charIndex to convert back to absolute transcript positions. */
+  private charOffset = 0;
+
+  constructor(onStart: (actionId: string) => void, onComplete: (actionId: string) => void) {
+    this.onStart    = onStart;
+    this.onComplete = onComplete;
+  }
+
+  loadMappings(mappings: TriggerMapping[]): void {
+    this.mappings = mappings;
+    this.startedActions.clear();
+    this.completedActions.clear();
+  }
+
+  /**
+   * Set the character offset for seek playback.
+   * When TTS speaks transcript.slice(N), all boundary event charIndex values
+   * are relative to the sliced string. Adding N here converts them back to
+   * absolute positions that match TriggerMapping.startCharIndex/endCharIndex.
+   */
+  setCharOffset(offset: number): void {
+    this.charOffset = offset;
+  }
+
+  /**
+   * Pre-mark an action as both started and completed.
+   * Used after a seek so instantly-applied actions don't re-fire via TTS.
+   */
+  markApplied(actionId: string): void {
+    this.startedActions.add(actionId);
+    this.completedActions.add(actionId);
+  }
+
+  /** Read-only access to the mapping list (used by WhiteboardPlayer.seekTo). */
+  getMappings(): readonly TriggerMapping[] {
+    return this.mappings;
+  }
+
+  handleBoundary(event: SpeechSynthesisEvent): void {
+    if (event.name !== "word") return;
+
+    const currentChar = event.charIndex + this.charOffset;
+
+    for (const mapping of this.mappings) {
+      const id = mapping.actionId;
+
+      // Fire START: current word is at or past the trigger phrase start
+      if (!this.startedActions.has(id) && currentChar >= mapping.startCharIndex) {
+        this.startedActions.add(id);
+        this.onStart(id);
+      }
+
+      // Fire COMPLETE: current word has passed the trigger phrase end
+      if (
+        this.startedActions.has(id) &&
+        !this.completedActions.has(id) &&
+        currentChar > mapping.endCharIndex
+      ) {
+        this.completedActions.add(id);
+        this.onComplete(id);
+      }
+    }
+  }
+
+  /**
+   * Mark all started-but-not-completed actions as complete.
+   * Call this on TTS 'end' or 'error' events so no animations are left hanging.
+   */
+  handleEnd(): void {
+    for (const mapping of this.mappings) {
+      const id = mapping.actionId;
+      if (this.startedActions.has(id) && !this.completedActions.has(id)) {
+        this.completedActions.add(id);
+        this.onComplete(id);
+      }
+      // Also trigger any actions that never started (transcript ended early)
+      if (!this.startedActions.has(id)) {
+        this.startedActions.add(id);
+        this.onStart(id);
+        this.completedActions.add(id);
+        this.onComplete(id);
+      }
+    }
+  }
+
+  reset(): void {
+    this.startedActions.clear();
+    this.completedActions.clear();
+    this.charOffset = 0;
+  }
+}
+import type { WhiteboardAction } from "../schema/types";
+
+// -----------------------------------------------------------------------------
+// TriggerMapping — maps a single action's trigger phrase to char positions
+// -----------------------------------------------------------------------------
+
+export interface TriggerMapping {
+  actionId: string;
+  triggerPhrase: string;
+  /** charIndex of the first character of the trigger phrase in the transcript */
+  startCharIndex: number;
+  /** charIndex of the last character of the trigger phrase (inclusive) */
+  endCharIndex: number;
+}
+
+// -----------------------------------------------------------------------------
+// TranscriptMapper
+// -----------------------------------------------------------------------------
+
+export class TranscriptMapper {
+  /**
+   * Pre-computes character ranges for all action trigger phrases.
+   * Call this once before TTS starts.
+   *
+   * Rules:
+   * - Matching is case-sensitive (trigger phrases must be exact substrings)
+   * - If a trigger phrase appears multiple times, the FIRST occurrence is used
+   * - If a trigger phrase is not found, a warning is logged and the action is skipped
+   */
+  buildMappings(transcript: string, actions: WhiteboardAction[]): TriggerMapping[] {
+    const mappings: TriggerMapping[] = [];
+
+    for (const action of actions) {
+      const phrase = action.trigger_phrase;
+      const startChar = transcript.indexOf(phrase);
+
+      if (startChar === -1) {
+        console.warn(
+          `TranscriptMapper: trigger phrase not found in transcript — action "${action.action_id}".\n` +
+          `  Phrase:     "${phrase}"\n` +
+          `  Transcript: "${transcript.slice(0, 80)}..."`
+        );
+        continue;
+      }
+
+      mappings.push({
+        actionId: action.action_id,
+        triggerPhrase: phrase,
+        startCharIndex: startChar,
+        endCharIndex: startChar + phrase.length - 1,
+      });
+    }
+
+    // Sort by startCharIndex so BoundaryTracker can iterate in order
+    mappings.sort((a, b) => a.startCharIndex - b.startCharIndex);
+
+    return mappings;
+  }
+}
+// -----------------------------------------------------------------------------
+// TTSEngine — thin wrapper around the Web Speech API
+//
+// Browser compatibility note:
+// - Chrome desktop: full support for onboundary (word boundaries)
+// - Edge: full support
+// - Firefox: onboundary may not fire; animations still work (via flush on end)
+// - Safari: partial support; test before deploying
+// -----------------------------------------------------------------------------
+
+export type TTSEventHandler = (event: SpeechSynthesisEvent) => void;
+
+export class TTSEngine {
+  private utterance: SpeechSynthesisUtterance | null = null;
+  private _isPaused = false;
+  private _isSpeaking = false;
+
+  get isPaused():  boolean { return this._isPaused;  }
+  get isSpeaking(): boolean { return this._isSpeaking; }
+
+  /**
+   * Speak the given text. Any previous speech is cancelled first.
+   * @param text       - the full transcript string
+   * @param onBoundary - called at each word boundary (charIndex of word start)
+   * @param onEnd      - called when speech finishes naturally or is cancelled
+   */
+  speak(
+    text: string,
+    onBoundary: TTSEventHandler,
+    onEnd: () => void,
+    rate = 0.9
+  ): void {
+    this.cancel();
+
+    this.utterance = new SpeechSynthesisUtterance(text);
+    this.utterance.rate  = rate;
+    this.utterance.pitch = 1.0;
+
+    this.utterance.onboundary = onBoundary;
+
+    this.utterance.onend = () => {
+      this._isSpeaking = false;
+      this._isPaused   = false;
+      onEnd();
+    };
+
+    this.utterance.onerror = (e) => {
+      console.error("TTSEngine error:", e.error);
+      this._isSpeaking = false;
+      this._isPaused   = false;
+      onEnd();
+    };
+
+    this._isSpeaking = true;
+    this._isPaused   = false;
+    window.speechSynthesis.speak(this.utterance);
+  }
+
+  pause(): void {
+    if (this._isSpeaking && !this._isPaused) {
+      window.speechSynthesis.pause();
+      this._isPaused = true;
+    }
+  }
+
+  resume(): void {
+    if (this._isSpeaking && this._isPaused) {
+      window.speechSynthesis.resume();
+      this._isPaused = false;
+    }
+  }
+
+  cancel(): void {
+    // Null out handlers BEFORE cancelling so the async 'onend' that the browser
+    // fires after cancel() doesn't trigger the old callback (e.g. handleTTSEnd).
+    if (this.utterance) {
+      this.utterance.onboundary = null;
+      this.utterance.onend      = null;
+      this.utterance.onerror    = null;
+    }
+    window.speechSynthesis.cancel();
+    this._isSpeaking = false;
+    this._isPaused   = false;
+    this.utterance   = null;
+  }
+
+  /**
+   * Returns the list of available voices.
+   * Voices load asynchronously; attach a callback for voiceschanged if needed.
+   */
+  getVoices(): SpeechSynthesisVoice[] {
+    return window.speechSynthesis.getVoices();
+  }
+}

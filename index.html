@@ -41,11 +41,33 @@
       #status {
         font-size: 0.85rem;
         color: #a6e3a1;
-        margin-left: auto;
         padding: 3px 10px;
         background: #1e1e2e;
         border-radius: 999px;
         border: 1px solid #313244;
+      }
+      /* Test mode toggle button in header */
+      #btn-test-mode {
+        margin-left: auto;
+        padding: 4px 14px;
+        background: transparent;
+        color: #a6adc8;
+        border: 1px solid #45475a;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+        letter-spacing: 0.03em;
+      }
+      #btn-test-mode:hover {
+        background: #313244;
+        color: #cdd6f4;
+      }
+      #btn-test-mode.active {
+        background: #fab387;
+        color: #1e1e2e;
+        border-color: #fab387;
       }
 
       /* ── Canvas area ── */
@@ -80,9 +102,7 @@
       }
 
       /* Plain text segments */
-      .tx-plain {
-        color: #a6adc8;
-      }
+      .tx-plain { color: #a6adc8; }
 
       /* Trigger phrase spans */
       .tx-trigger {
@@ -93,30 +113,13 @@
         transition: background 0.15s, color 0.15s;
         border-bottom: 2px solid transparent;
       }
-      .tx-trigger--pending {
-        color: #89b4fa;
-        border-bottom-color: #45475a;
-      }
-      .tx-trigger--pending:hover {
-        background: #313244;
-      }
-      .tx-trigger--active {
-        color: #1e1e2e;
-        background: #f9e2af;
-        border-bottom-color: #f9e2af;
-      }
-      .tx-trigger--past {
-        color: #585b70;
-        border-bottom-color: #313244;
-        text-decoration: line-through;
-      }
-      .tx-trigger--past:hover {
-        background: #313244;
-        color: #a6adc8;
-        text-decoration: none;
-      }
+      .tx-trigger--pending { color: #89b4fa; border-bottom-color: #45475a; }
+      .tx-trigger--pending:hover { background: #313244; }
+      .tx-trigger--active  { color: #1e1e2e; background: #f9e2af; border-bottom-color: #f9e2af; }
+      .tx-trigger--past    { color: #585b70; border-bottom-color: #313244; text-decoration: line-through; }
+      .tx-trigger--past:hover { background: #313244; color: #a6adc8; text-decoration: none; }
 
-      /* ── Sidebar ── */
+      /* ── Sidebar (shared shell) ── */
       #sidebar {
         grid-area: sidebar;
         background: #181825;
@@ -127,7 +130,12 @@
         gap: 10px;
         overflow: hidden;
       }
-      #sidebar label {
+
+      /* ── Editor panel (default mode) ── */
+      #editor-panel {
+        display: contents; /* children appear as direct sidebar children */
+      }
+      #editor-panel label {
         font-size: 0.78rem;
         color: #a6adc8;
         font-weight: 500;
@@ -148,10 +156,7 @@
         tab-size: 2;
         overflow-y: auto;
       }
-      #scene-json:focus {
-        outline: none;
-        border-color: #89b4fa;
-      }
+      #scene-json:focus { outline: none; border-color: #89b4fa; }
       #btn-load-json {
         padding: 7px 14px;
         background: #89b4fa;
@@ -163,6 +168,107 @@
         cursor: pointer;
       }
       #btn-load-json:hover { background: #74c7ec; }
+
+      /* ── Test panel ── */
+      #test-panel {
+        display: none; /* shown via JS when test mode active */
+        flex-direction: column;
+        gap: 8px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      #test-panel.visible { display: flex; }
+
+      /* Shared label style for test panel */
+      .test-label {
+        font-size: 0.78rem;
+        color: #a6adc8;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .test-dropdown {
+        width: 100%;
+        background: #1e1e2e;
+        color: #cdd6f4;
+        border: 1px solid #313244;
+        border-radius: 6px;
+        padding: 7px 10px;
+        font-size: 0.83rem;
+        cursor: pointer;
+      }
+      .test-dropdown:focus { outline: none; border-color: #89b4fa; }
+
+      .test-prompt-preview {
+        background: #1e1e2e;
+        border: 1px solid #313244;
+        border-radius: 6px;
+        padding: 8px 10px;
+        font-size: 0.76rem;
+        color: #a6adc8;
+        line-height: 1.5;
+        min-height: 52px;
+        font-style: italic;
+      }
+
+      .test-status {
+        font-size: 0.78rem;
+        min-height: 18px;
+        border-radius: 4px;
+        padding: 2px 6px;
+      }
+      .test-status--ok      { color: #a6e3a1; }
+      .test-status--loading { color: #89b4fa; }
+      .test-status--error   { color: #f38ba8; }
+
+      .test-feedback {
+        width: 100%;
+        background: #1e1e2e;
+        color: #cdd6f4;
+        border: 1px solid #313244;
+        border-radius: 6px;
+        padding: 8px 10px;
+        font-family: system-ui, sans-serif;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        resize: vertical;
+        min-height: 90px;
+      }
+      .test-feedback:focus { outline: none; border-color: #89b4fa; }
+
+      .test-submit-btn {
+        padding: 7px 14px;
+        background: #a6e3a1;
+        color: #1e1e2e;
+        width: 100%;
+      }
+      .test-submit-btn:hover:not(:disabled) { opacity: 0.85; }
+
+      .test-export-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .test-count-badge {
+        font-size: 0.72rem;
+        color: #6c7086;
+        flex: 1;
+      }
+      .test-export-btn {
+        padding: 6px 12px;
+        background: #313244;
+        color: #cdd6f4;
+        font-size: 0.78rem;
+        white-space: nowrap;
+      }
+      .test-export-btn:hover { background: #45475a; }
+
+      .test-error {
+        color: #f38ba8;
+        font-size: 0.82rem;
+        padding: 8px;
+      }
 
       /* ── Controls ── */
       #controls {
@@ -195,12 +301,14 @@
         color: #6c7086;
         line-height: 1.4;
       }
+      .hint.test-hint { color: #fab387; }
     </style>
   </head>
   <body>
     <header>
       <h1>Whiteboard AI</h1>
       <span id="status">Loading…</span>
+      <button id="btn-test-mode">🧪 Test Mode</button>
     </header>
 
     <div id="canvas-container">
@@ -210,16 +318,22 @@
     <div id="transcript-viewer"></div>
 
     <aside id="sidebar">
-      <label>Scene JSON</label>
-      <textarea id="scene-json" spellcheck="false"></textarea>
-      <button id="btn-load-json" class="btn">Load Scene</button>
+      <!-- Default: Scene JSON editor -->
+      <div id="editor-panel">
+        <label>Scene JSON</label>
+        <textarea id="scene-json" spellcheck="false"></textarea>
+        <button id="btn-load-json" class="btn">Load Scene</button>
+      </div>
+
+      <!-- Test Mode panel (hidden until toggled) -->
+      <div id="test-panel"></div>
     </aside>
 
     <div id="controls">
       <button id="btn-play"  class="btn" disabled>Play</button>
       <button id="btn-pause" class="btn" disabled>Pause</button>
       <button id="btn-stop"  class="btn" disabled>Stop</button>
-      <span class="hint">
+      <span class="hint" id="hint-text">
         Edit the scene JSON on the right and click "Load Scene"<br>
         to preview your changes, then press Play.
       </span>

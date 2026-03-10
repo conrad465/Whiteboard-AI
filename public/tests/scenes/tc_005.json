@@ -1,0 +1,237 @@
+{
+  "version": "1.0",
+  "title": "How a Bill Becomes a Law",
+  "canvas": { "aspect_ratio": "16:9", "background_color": "white" },
+  "transcript": "A bill is first introduced in Congress by a sponsor in the House or Senate. The bill is then sent to committee review, where legislators study and debate it. If the committee approves, the bill proceeds to a floor vote before the full chamber. When passed, the bill is sent to the President for signature. Once signed, the bill becomes a law.",
+  "default_animation": { "type": "fade_in", "easing": "ease_out" },
+  "actions": [
+    {
+      "action_id": "create_box1",
+      "action_type": "create",
+      "trigger_phrase": "A bill is first introduced in Congress",
+      "element": {
+        "id": "box1",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 12,
+        "height_percent": 18,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 10, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_label1",
+      "action_type": "create",
+      "trigger_phrase": "A bill is first introduced in Congress",
+      "element": {
+        "id": "label1",
+        "element_type": "text",
+        "content": "Introduced",
+        "font_size": "small",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 11,
+        "position": { "type": "relative", "relative_to": "box1", "placement": "center_of", "gap_percent": 0 }
+      }
+    },
+    {
+      "action_id": "create_arrow1",
+      "action_type": "create",
+      "trigger_phrase": "sent to committee review",
+      "element": {
+        "id": "arrow1",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 8,
+        "height_percent": 3,
+        "fill_color": "black",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 19, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "draw_in", "direction": "left_to_right" }
+    },
+    {
+      "action_id": "create_box2",
+      "action_type": "create",
+      "trigger_phrase": "sent to committee review",
+      "element": {
+        "id": "box2",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 12,
+        "height_percent": 18,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 28, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_label2",
+      "action_type": "create",
+      "trigger_phrase": "sent to committee review",
+      "element": {
+        "id": "label2",
+        "element_type": "text",
+        "content": "Committee",
+        "font_size": "small",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 11,
+        "position": { "type": "relative", "relative_to": "box2", "placement": "center_of", "gap_percent": 0 }
+      }
+    },
+    {
+      "action_id": "create_arrow2",
+      "action_type": "create",
+      "trigger_phrase": "bill proceeds to a floor vote",
+      "element": {
+        "id": "arrow2",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 8,
+        "height_percent": 3,
+        "fill_color": "black",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 37, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "draw_in", "direction": "left_to_right" }
+    },
+    {
+      "action_id": "create_box3",
+      "action_type": "create",
+      "trigger_phrase": "bill proceeds to a floor vote",
+      "element": {
+        "id": "box3",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 12,
+        "height_percent": 18,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 46, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_label3",
+      "action_type": "create",
+      "trigger_phrase": "bill proceeds to a floor vote",
+      "element": {
+        "id": "label3",
+        "element_type": "text",
+        "content": "Floor Vote",
+        "font_size": "small",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 11,
+        "position": { "type": "relative", "relative_to": "box3", "placement": "center_of", "gap_percent": 0 }
+      }
+    },
+    {
+      "action_id": "create_arrow3",
+      "action_type": "create",
+      "trigger_phrase": "sent to the President for signature",
+      "element": {
+        "id": "arrow3",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 8,
+        "height_percent": 3,
+        "fill_color": "black",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 55, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "draw_in", "direction": "left_to_right" }
+    },
+    {
+      "action_id": "create_box4",
+      "action_type": "create",
+      "trigger_phrase": "sent to the President for signature",
+      "element": {
+        "id": "box4",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 12,
+        "height_percent": 18,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 64, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_label4",
+      "action_type": "create",
+      "trigger_phrase": "sent to the President for signature",
+      "element": {
+        "id": "label4",
+        "element_type": "text",
+        "content": "President",
+        "font_size": "small",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 11,
+        "position": { "type": "relative", "relative_to": "box4", "placement": "center_of", "gap_percent": 0 }
+      }
+    },
+    {
+      "action_id": "create_arrow4",
+      "action_type": "create",
+      "trigger_phrase": "the bill becomes a law",
+      "element": {
+        "id": "arrow4",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 8,
+        "height_percent": 3,
+        "fill_color": "black",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 73, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "draw_in", "direction": "left_to_right" }
+    },
+    {
+      "action_id": "create_box5",
+      "action_type": "create",
+      "trigger_phrase": "the bill becomes a law",
+      "element": {
+        "id": "box5",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 12,
+        "height_percent": 18,
+        "fill_color": "green",
+        "border_color": "black",
+        "border_width": 3,
+        "position": { "type": "canvas", "x_percent": 82, "y_percent": 45, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_label5",
+      "action_type": "create",
+      "trigger_phrase": "the bill becomes a law",
+      "element": {
+        "id": "label5",
+        "element_type": "text",
+        "content": "Law!",
+        "font_size": "medium",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 11,
+        "position": { "type": "relative", "relative_to": "box5", "placement": "center_of", "gap_percent": 0 }
+      }
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "version": "1.0",
+  "title": "Compound Interest",
+  "canvas": { "aspect_ratio": "16:9", "background_color": "white" },
+  "transcript": "Simple interest and compound interest are two ways money grows over time. With simple interest, growth is linear — each year you earn the same fixed amount on the original principal. With compound interest, growth accelerates because you earn interest on your interest as well as the principal. Over time compound interest far outpaces simple interest. The gap between them widens every year.",
+  "default_animation": { "type": "fade_in", "easing": "ease_out" },
+  "actions": [
+    {
+      "action_id": "create_simple_bar",
+      "action_type": "create",
+      "trigger_phrase": "Simple interest and compound interest are two ways",
+      "element": {
+        "id": "simple_bar",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 18,
+        "height_percent": 22,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 30, "y_percent": 55, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_simple_label",
+      "action_type": "create",
+      "trigger_phrase": "Simple interest and compound interest are two ways",
+      "element": {
+        "id": "simple_label",
+        "element_type": "text",
+        "content": "Simple Interest",
+        "font_size": "medium",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 16,
+        "position": { "type": "relative", "relative_to": "simple_bar", "placement": "center_of", "gap_percent": 0 }
+      }
+    },
+    {
+      "action_id": "create_compound_bar",
+      "action_type": "create",
+      "trigger_phrase": "Simple interest and compound interest are two ways",
+      "element": {
+        "id": "compound_bar",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 18,
+        "height_percent": 22,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "position": { "type": "canvas", "x_percent": 62, "y_percent": 55, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_compound_label",
+      "action_type": "create",
+      "trigger_phrase": "Simple interest and compound interest are two ways",
+      "element": {
+        "id": "compound_label",
+        "element_type": "text",
+        "content": "Compound Interest",
+        "font_size": "medium",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 16,
+        "position": { "type": "relative", "relative_to": "compound_bar", "placement": "center_of", "gap_percent": 0 }
+      }
+    },
+    {
+      "action_id": "create_year_label",
+      "action_type": "create",
+      "trigger_phrase": "Simple interest and compound interest are two ways",
+      "element": {
+        "id": "year_label",
+        "element_type": "text",
+        "content": "Year 1",
+        "font_size": "small",
+        "color": "black",
+        "bold": true,
+        "max_width_percent": 14,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 20, "anchor": "center" }
+      }
+    },
+    {
+      "action_id": "create_simple_desc",
+      "action_type": "create",
+      "trigger_phrase": "With simple interest, growth is linear",
+      "element": {
+        "id": "simple_desc",
+        "element_type": "text",
+        "content": "Fixed amount added each year",
+        "font_size": "small",
+        "color": "blue",
+        "max_width_percent": 22,
+        "position": { "type": "relative", "relative_to": "simple_bar", "placement": "below", "gap_percent": 2 }
+      }
+    },
+    {
+      "action_id": "edit_year_to_20",
+      "action_type": "edit",
+      "trigger_phrase": "With compound interest, growth accelerates",
+      "element_id": "year_label",
+      "changes": { "content": "Year 20" },
+      "animation": { "type": "pop_highlight" }
+    },
+    {
+      "action_id": "grow_compound_bar",
+      "action_type": "edit",
+      "trigger_phrase": "With compound interest, growth accelerates",
+      "element_id": "compound_bar",
+      "changes": { "height_percent": 52, "fill_color": "green" },
+      "animation": { "type": "pop_highlight" }
+    },
+    {
+      "action_id": "create_compound_desc",
+      "action_type": "create",
+      "trigger_phrase": "With compound interest, growth accelerates",
+      "element": {
+        "id": "compound_desc",
+        "element_type": "text",
+        "content": "Interest on interest!",
+        "font_size": "small",
+        "color": "green",
+        "bold": true,
+        "max_width_percent": 22,
+        "position": { "type": "relative", "relative_to": "compound_bar", "placement": "above", "gap_percent": 2 }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_vs_label",
+      "action_type": "create",
+      "trigger_phrase": "compound interest far outpaces simple interest",
+      "element": {
+        "id": "vs_label",
+        "element_type": "text",
+        "content": "Compound wins!",
+        "font_size": "large",
+        "color": "green",
+        "bold": true,
+        "max_width_percent": 30,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 88, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    }
+  ]
+}

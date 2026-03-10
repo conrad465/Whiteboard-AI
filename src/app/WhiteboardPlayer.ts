@@ -58,7 +58,8 @@ export class WhiteboardPlayer {
 
     this.boundaryTracker  = new BoundaryTracker(
       (actionId) => this.handleAnimationStart(actionId),
-      (actionId) => this.animationController.onAnimationEnd(actionId)
+      (actionId) => this.animationController.onAnimationEnd(actionId),
+      (actionId, charProgress) => this.animationController.onWordProgress(actionId, charProgress)
     );
 
     // Start rAF loop — it runs forever, only redraws when dirty
@@ -259,13 +260,18 @@ export class WhiteboardPlayer {
   private executeAction(action: WhiteboardAction): void {
     if (!this.scene) return;
 
-    const animConfig: AnimationConfig = action.animation ?? this.scene.default_animation;
-
     switch (action.action_type) {
       case "create": {
         const create = action as CreateAction;
         const geometry = this.positionResolver.resolve(create.element);
         this.sceneGraph.addElement(create.element, geometry);
+
+        // Smart animation defaults: text → typewriter, shape → draw_in
+        const smartDefault: AnimationConfig = create.element.element_type === "text"
+          ? { type: "typewriter" }
+          : { type: "draw_in" };
+        const animConfig: AnimationConfig = action.animation ?? smartDefault;
+
         this.animationController.onAnimationStart(
           create.action_id,
           create.element.id,

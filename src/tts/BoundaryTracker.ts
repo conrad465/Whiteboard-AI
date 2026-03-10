@@ -25,12 +25,23 @@ export class BoundaryTracker {
   private completedActions = new Set<string>();
   private onStart:    (actionId: string) => void;
   private onComplete: (actionId: string) => void;
+  /**
+   * Optional: fired for each word boundary that falls within an active phrase.
+   * charProgress is (wordStart - phraseStart) / phraseLength, 0→1.
+   * Lets AnimationController track phrase timing without a fixed soft-cap.
+   */
+  private onProgress?: (actionId: string, charProgress: number) => void;
   /** Added to every event.charIndex to convert back to absolute transcript positions. */
   private charOffset = 0;
 
-  constructor(onStart: (actionId: string) => void, onComplete: (actionId: string) => void) {
+  constructor(
+    onStart: (actionId: string) => void,
+    onComplete: (actionId: string) => void,
+    onProgress?: (actionId: string, charProgress: number) => void
+  ) {
     this.onStart    = onStart;
     this.onComplete = onComplete;
+    this.onProgress = onProgress;
   }
 
   loadMappings(mappings: TriggerMapping[]): void {
@@ -75,6 +86,20 @@ export class BoundaryTracker {
       if (!this.startedActions.has(id) && currentChar >= mapping.startCharIndex) {
         this.startedActions.add(id);
         this.onStart(id);
+      }
+
+      // Fire PROGRESS: word falls within the active phrase
+      // Use char position to give AnimationController a phrase-timing estimate.
+      // Skip the very first word (charOffset = 0, elapsed ≈ 0, estimate unusable).
+      if (
+        this.onProgress &&
+        this.startedActions.has(id) &&
+        !this.completedActions.has(id) &&
+        currentChar > mapping.startCharIndex
+      ) {
+        const phraseLen    = mapping.endCharIndex - mapping.startCharIndex + 1;
+        const charProgress = Math.min((currentChar - mapping.startCharIndex) / phraseLen, 1);
+        this.onProgress(id, charProgress);
       }
 
       // Fire COMPLETE: current word has passed the trigger phrase end

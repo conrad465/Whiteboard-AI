@@ -1,5 +1,6 @@
 import { WhiteboardPlayer, type PlayerState } from "./WhiteboardPlayer";
 import { TranscriptViewer } from "./TranscriptViewer";
+import { TestingPanel } from "./TestingPanel";
 import { SceneLoader } from "../engine/SceneLoader";
 import type { SceneDefinition } from "../schema/types";
 
@@ -7,17 +8,21 @@ import type { SceneDefinition } from "../schema/types";
 // DOM setup
 // -----------------------------------------------------------------------------
 
-const canvas      = document.getElementById("whiteboard") as HTMLCanvasElement;
-const playBtn     = document.getElementById("btn-play")   as HTMLButtonElement;
-const pauseBtn    = document.getElementById("btn-pause")  as HTMLButtonElement;
-const stopBtn     = document.getElementById("btn-stop")   as HTMLButtonElement;
-const statusEl    = document.getElementById("status")     as HTMLElement;
-const sceneInput  = document.getElementById("scene-json") as HTMLTextAreaElement;
-const loadJsonBtn = document.getElementById("btn-load-json") as HTMLButtonElement;
-const txContainer = document.getElementById("transcript-viewer") as HTMLElement;
+const canvas        = document.getElementById("whiteboard")        as HTMLCanvasElement;
+const playBtn       = document.getElementById("btn-play")          as HTMLButtonElement;
+const pauseBtn      = document.getElementById("btn-pause")         as HTMLButtonElement;
+const stopBtn       = document.getElementById("btn-stop")          as HTMLButtonElement;
+const statusEl      = document.getElementById("status")            as HTMLElement;
+const sceneInput    = document.getElementById("scene-json")        as HTMLTextAreaElement;
+const loadJsonBtn   = document.getElementById("btn-load-json")     as HTMLButtonElement;
+const txContainer   = document.getElementById("transcript-viewer") as HTMLElement;
+const testModeBtn   = document.getElementById("btn-test-mode")     as HTMLButtonElement;
+const editorPanel   = document.getElementById("editor-panel")      as HTMLElement;
+const testPanelEl   = document.getElementById("test-panel")        as HTMLElement;
+const hintEl        = document.getElementById("hint-text")         as HTMLElement;
 
 // -----------------------------------------------------------------------------
-// Resize canvas to fill its container, maintaining 16:9
+// Canvas resize (maintain 16:9 within its container)
 // -----------------------------------------------------------------------------
 
 function resizeCanvas(): void {
@@ -25,7 +30,6 @@ function resizeCanvas(): void {
   const containerWidth  = container.clientWidth;
   const containerHeight = container.clientHeight;
 
-  // Fit 16:9 inside container
   const targetRatio = 16 / 9;
   let w = containerWidth;
   let h = w / targetRatio;
@@ -90,7 +94,7 @@ async function loadDefaultScene(): Promise<void> {
 loadDefaultScene();
 
 // ---------------------------------------------------------------------------
-// Control buttons
+// Playback controls
 // ---------------------------------------------------------------------------
 
 playBtn.addEventListener("click", () => {
@@ -98,9 +102,7 @@ playBtn.addEventListener("click", () => {
   player.play();
 });
 
-pauseBtn.addEventListener("click", () => {
-  player.pause();
-});
+pauseBtn.addEventListener("click", () => { player.pause(); });
 
 stopBtn.addEventListener("click", () => {
   player.stop();
@@ -110,7 +112,7 @@ stopBtn.addEventListener("click", () => {
 });
 
 // ---------------------------------------------------------------------------
-// Load JSON from textarea
+// Load JSON from textarea (editor panel)
 // ---------------------------------------------------------------------------
 
 loadJsonBtn.addEventListener("click", () => {
@@ -123,4 +125,51 @@ loadJsonBtn.addEventListener("click", () => {
     statusEl.textContent = `Scene error: ${(err as Error).message}`;
     console.error(err);
   }
+});
+
+// ---------------------------------------------------------------------------
+// Testing Mode
+// ---------------------------------------------------------------------------
+
+let testingModeActive = false;
+let testingPanel: TestingPanel | null = null;
+
+function setTestingMode(active: boolean): void {
+  testingModeActive = active;
+  testModeBtn.classList.toggle("active", active);
+
+  if (active) {
+    // Hide editor, show test panel
+    editorPanel.style.display = "none";
+    testPanelEl.classList.add("visible");
+    hintEl.innerHTML = "🧪 <strong>Test Mode</strong> — select a case and press Play.";
+    hintEl.classList.add("test-hint");
+
+    // Initialise once
+    if (!testingPanel) {
+      testingPanel = new TestingPanel(testPanelEl, import.meta.env.BASE_URL);
+      testingPanel.onLoad((scene, tc) => {
+        currentScene = scene;
+        player.stop();
+        player.loadScene(scene);
+        viewer.reset();
+        setStatus("idle");
+        // Mirror JSON into editor so users can inspect it
+        sceneInput.value = JSON.stringify(scene, null, 2);
+        statusEl.textContent = `Loaded: ${tc.name}`;
+      });
+      void testingPanel.init();
+    }
+  } else {
+    // Restore editor panel
+    editorPanel.style.display = "";
+    testPanelEl.classList.remove("visible");
+    hintEl.innerHTML =
+      'Edit the scene JSON on the right and click "Load Scene"<br>to preview your changes, then press Play.';
+    hintEl.classList.remove("test-hint");
+  }
+}
+
+testModeBtn.addEventListener("click", () => {
+  setTestingMode(!testingModeActive);
 });

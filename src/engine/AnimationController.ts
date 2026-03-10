@@ -14,9 +14,14 @@ interface ActiveAnimation {
   startTime: number;
   /**
    * performance.now() when the animation should complete (trigger phrase last word).
-   * null means we haven't heard the end word yet — we animate to a soft-cap of 0.8.
+   * null means we haven't heard the end word yet.
    */
   endTime: number | null;
+  /**
+   * Dynamically updated estimate of endTime, derived from mid-phrase word events.
+   * Used by typewriter and draw_in to avoid the hard soft-cap cliff.
+   */
+  estimatedEndTime: number | null;
   progress: number;   // 0→1
   isComplete: boolean;
   /** For delete actions: fade OUT instead of in */
@@ -60,6 +65,7 @@ export class AnimationController {
       config,
       startTime: performance.now(),
       endTime: null,
+      estimatedEndTime: null,
       progress: 0,
       isComplete: false,
       isDeleting,
@@ -82,6 +88,25 @@ export class AnimationController {
     const anim = this.active.get(actionId);
     if (anim && !anim.isComplete) {
       anim.endTime = performance.now();
+    }
+  }
+
+  /**
+   * Called for each word boundary that falls within a trigger phrase.
+   * charProgress (0→1) is the word's char offset within the phrase.
+   * Updates estimatedEndTime so typewriter/draw_in can track speech
+   * timing without relying on a fixed soft-cap.
+   */
+  onWordProgress(actionId: string, charProgress: number): void {
+    const anim = this.active.get(actionId);
+    if (!anim || anim.isComplete || anim.endTime !== null) return;
+
+    const now     = performance.now();
+    const elapsed = now - anim.startTime;
+
+    // Need meaningful elapsed time before estimating; skip near-zero values
+    if (charProgress > 0 && elapsed > 80) {
+      anim.estimatedEndTime = anim.startTime + elapsed / charProgress;
     }
   }
 
@@ -148,14 +173,23 @@ export class AnimationController {
 
   private computeProgress(anim: ActiveAnimation, now: number): number {
     if (anim.endTime !== null) {
-      // We know the target end time — use wall-clock progress
+      // Exact end time known — use wall-clock progress
       const duration = Math.max(anim.endTime - anim.startTime, 1);
       return Math.min((now - anim.startTime) / duration, 1.0);
-    } else {
-      // End time not yet known — ramp to softcap quickly, then hold
-      const elapsed = now - anim.startTime;
-      return Math.min((elapsed / SOFTCAP_DURATION_MS) * SOFTCAP_PROGRESS, SOFTCAP_PROGRESS);
     }
+
+    const type = anim.config.type;
+
+    if ((type === "typewriter" || type === "draw_in") && anim.estimatedEndTime !== null) {
+      // For reveal animations: use phrase-timing estimate without a soft-cap.
+      // This tracks speech and lets the animation complete as the last word is spoken.
+      const duration = Math.max(anim.estimatedEndTime - anim.startTime, 1);
+      return Math.min((now - anim.startTime) / duration, 1.0);
+    }
+
+    // Fallback for other animations or before any word events arrive: soft-cap
+    const elapsed = now - anim.startTime;
+    return Math.min((elapsed / SOFTCAP_DURATION_MS) * SOFTCAP_PROGRESS, SOFTCAP_PROGRESS);
   }
 
   // ---------------------------------------------------------------------------
@@ -163,6 +197,9 @@ export class AnimationController {
   // ---------------------------------------------------------------------------
 
   private applyEasing(p: number, config: AnimationConfig): number {
+    // typewriter and draw_in are linear so reveals track phrase timing evenly
+    if (config.type === "typewriter" || config.type === "draw_in") return p;
+
     const easing = config.type === "fade_in" ? (config.easing ?? "ease_out") : "ease_out";
     switch (easing) {
       case "linear":       return p;

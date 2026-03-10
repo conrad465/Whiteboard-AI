@@ -1,0 +1,65 @@
+{
+  "version": "1.0",
+  "cases": [
+    {
+      "id": "tc_001",
+      "name": "Supply and Demand",
+      "category": "Economics",
+      "prompt": "Create a short whiteboard presentation explaining supply and demand. Use arrows to represent the supply curve (upward sloping) and demand curve (downward sloping). Show them meeting at an equilibrium point. Label key elements: Supply, Demand, Equilibrium Price, Equilibrium Quantity. Keep the transcript to 4-5 sentences and the scene to 5-7 elements."
+    },
+    {
+      "id": "tc_002",
+      "name": "The Water Cycle",
+      "category": "Science",
+      "prompt": "Create a short whiteboard presentation explaining the water cycle. Show the three main stages: evaporation from a water body, condensation into clouds, and precipitation back down. Use shapes and arrows to connect the stages. Label each stage. Keep the transcript to 4-5 sentences."
+    },
+    {
+      "id": "tc_003",
+      "name": "Newton's Three Laws of Motion",
+      "category": "Physics",
+      "prompt": "Create a short whiteboard presentation explaining Newton's three laws of motion. Introduce each law one at a time with a text label and a brief visual. For example, use arrows to show force and motion. Delete each law's visual before introducing the next. Keep it concise — one sentence per law in the transcript."
+    },
+    {
+      "id": "tc_004",
+      "name": "Compound Interest",
+      "category": "Finance",
+      "prompt": "Create a short whiteboard presentation explaining compound interest vs simple interest. Show two rectangles growing over time — one for simple interest (grows linearly) and one for compound interest (grows faster, changes color to highlight). Label both. Use edit actions to change colors when making comparisons. Keep the transcript to 4-5 sentences."
+    },
+    {
+      "id": "tc_005",
+      "name": "How a Bill Becomes a Law",
+      "category": "Civics",
+      "prompt": "Create a short whiteboard presentation showing how a bill becomes a law in the US. Show a linear flow: Bill Introduced → Committee Review → Floor Vote → Presidential Signature → Law. Use rectangles and arrows. Add each step with a separate trigger phrase. Keep the transcript to 5 sentences."
+    },
+    {
+      "id": "tc_006",
+      "name": "Photosynthesis",
+      "category": "Biology",
+      "prompt": "Create a short whiteboard presentation explaining photosynthesis. Show inputs (sunlight, water, CO2) flowing into a leaf shape (rectangle or circle), and outputs (glucose, oxygen) flowing out. Use arrows and labels. Introduce inputs first, then the process, then outputs. Keep the transcript to 4-5 sentences."
+    },
+    {
+      "id": "tc_007",
+      "name": "Supply Chain Basics",
+      "category": "Business",
+      "prompt": "Create a short whiteboard presentation explaining a basic supply chain. Show the flow from Raw Materials → Manufacturing → Distribution → Retailer → Consumer using rectangles and arrows. Add each stage one at a time as it is mentioned. Keep the transcript to 4-5 sentences."
+    },
+    {
+      "id": "tc_008",
+      "name": "Ohm's Law",
+      "category": "Physics",
+      "prompt": "Create a short whiteboard presentation explaining Ohm's Law (V = I × R). Introduce voltage, current, and resistance as labeled elements. Show the formula V = IR as a text element that appears when the relationship is explained. Use a simple circuit rectangle as a visual. Keep the transcript to 4 sentences."
+    },
+    {
+      "id": "tc_009",
+      "name": "The Roman Republic",
+      "category": "History",
+      "prompt": "Create a short whiteboard presentation explaining the structure of the Roman Republic. Show three branches: Senate (top), Consuls (middle), and Citizens (bottom) as a hierarchy using rectangles connected by lines. Add each branch as it is introduced. Keep the transcript to 4-5 sentences."
+    },
+    {
+      "id": "tc_010",
+      "name": "The Scientific Method",
+      "category": "Science",
+      "prompt": "Create a short whiteboard presentation explaining the scientific method. Show the steps in order: Observation → Question → Hypothesis → Experiment → Analysis → Conclusion, connected by arrows. Add each step as it is spoken. Use a draw_in animation for the arrows. Keep the transcript to 5-6 sentences."
+    }
+  ]
+}

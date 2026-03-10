@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "title": "The Water Cycle",
+  "canvas": { "aspect_ratio": "16:9", "background_color": "white" },
+  "transcript": "The water cycle describes how water continuously moves through the environment. Evaporation lifts water vapor from the surface into the sky. The vapor rises and undergoes condensation, forming clouds. Finally, precipitation falls back to the surface, completing the cycle.",
+  "default_animation": { "type": "fade_in", "easing": "ease_out" },
+  "actions": [
+    {
+      "action_id": "create_title",
+      "action_type": "create",
+      "trigger_phrase": "The water cycle describes how water",
+      "element": {
+        "id": "title",
+        "element_type": "text",
+        "content": "The Water Cycle",
+        "font_size": "large",
+        "color": "blue",
+        "bold": true,
+        "max_width_percent": 50,
+        "text_align": "center",
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 6, "anchor": "top" }
+      },
+      "animation": { "type": "typewriter" }
+    },
+    {
+      "action_id": "create_water_body",
+      "action_type": "create",
+      "trigger_phrase": "The water cycle describes how water",
+      "element": {
+        "id": "water_body",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 55,
+        "height_percent": 14,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 2,
+        "text": "Ocean / Lake",
+        "text_color": "white",
+        "font_size": "medium",
+        "text_align": "center",
+        "text_position": "middle_center",
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 82, "anchor": "center" }
+      },
+      "animation": { "type": "fade_in", "easing": "ease_out" }
+    },
+    {
+      "action_id": "create_cloud",
+      "action_type": "create",
+      "trigger_phrase": "The water cycle describes how water",
+      "element": {
+        "id": "cloud",
+        "element_type": "shape",
+        "shape": "circle",
+        "width_percent": 22,
+        "height_percent": 22,
+        "fill_color": "white",
+        "border_color": "black",
+        "border_width": 3,
+        "text": "Cloud",
+        "text_color": "black",
+        "font_size": "medium",
+        "text_align": "center",
+        "text_position": "middle_center",
+        "position": { "type": "canvas", "x_percent": 26, "y_percent": 22, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_sun",
+      "action_type": "create",
+      "trigger_phrase": "The water cycle describes how water",
+      "element": {
+        "id": "sun",
+        "element_type": "shape",
+        "shape": "circle",
+        "width_percent": 13,
+        "height_percent": 21,
+        "fill_color": "yellow",
+        "border_color": "orange",
+        "border_width": 3,
+        "text": "Sun",
+        "text_color": "orange",
+        "font_size": "medium",
+        "text_align": "center",
+        "text_position": "middle_center",
+        "position": { "type": "canvas", "x_percent": 80, "y_percent": 20, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_evap_arrow",
+      "action_type": "create",
+      "trigger_phrase": "Evaporation lifts water vapor from the surface",
+      "element": {
+        "id": "evap_arrow",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 1,
+        "height_percent": 3,
+        "fill_color": "blue",
+        "border_color": "blue",
+        "border_width": 2,
+        "position": {
+          "type": "connected",
+          "from_element": "water_body",
+          "from_anchor": "top_left",
+          "to_element": "cloud",
+          "to_anchor": "S"
+        }
+      },
+      "animation": { "type": "draw_in", "direction": "left_to_right" }
+    },
+    {
+      "action_id": "create_evap_label",
+      "action_type": "create",
+      "trigger_phrase": "Evaporation lifts water vapor from the surface",
+      "element": {
+        "id": "evap_label",
+        "element_type": "text",
+        "content": "Evaporation",
+        "font_size": "small",
+        "color": "blue",
+        "bold": true,
+        "max_width_percent": 18,
+        "text_align": "center",
+        "position": { "type": "canvas", "x_percent": 8, "y_percent": 52, "anchor": "center" }
+      }
+    },
+    {
+      "action_id": "create_cond_label",
+      "action_type": "create",
+      "trigger_phrase": "undergoes condensation, forming clouds",
+      "element": {
+        "id": "cond_label",
+        "element_type": "text",
+        "content": "Condensation",
+        "font_size": "small",
+        "color": "black",
+        "bold": true,
+        "max_width_percent": 25,
+        "text_align": "center",
+        "position": { "type": "relative", "relative_to": "cloud", "placement": "above", "gap_percent": 1, "align": "center" }
+      }
+    },
+    {
+      "action_id": "highlight_cloud",
+      "action_type": "edit",
+      "trigger_phrase": "undergoes condensation, forming clouds",
+      "element_id": "cloud",
+      "changes": { "border_color": "blue", "border_width": 4 },
+      "animation": { "type": "pop_highlight" }
+    },
+    {
+      "action_id": "create_precip_arrow",
+      "action_type": "create",
+      "trigger_phrase": "precipitation falls back to the surface",
+      "element": {
+        "id": "precip_arrow",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 1,
+        "height_percent": 3,
+        "fill_color": "purple",
+        "border_color": "purple",
+        "border_width": 2,
+        "position": {
+          "type": "connected",
+          "from_element": "cloud",
+          "from_anchor": "SE",
+          "to_element": "water_body",
+          "to_anchor": "top_right"
+        }
+      },
+      "animation": { "type": "draw_in", "direction": "left_to_right" }
+    },
+    {
+      "action_id": "create_precip_label",
+      "action_type": "create",
+      "trigger_phrase": "precipitation falls back to the surface",
+      "element": {
+        "id": "precip_label",
+        "element_type": "text",
+        "content": "Precipitation",
+        "font_size": "small",
+        "color": "purple",
+        "bold": true,
+        "max_width_percent": 22,
+        "text_align": "center",
+        "position": { "type": "canvas", "x_percent": 74, "y_percent": 58, "anchor": "center" }
+      }
+    }
+  ]
+}

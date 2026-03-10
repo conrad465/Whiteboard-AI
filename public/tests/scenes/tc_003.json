@@ -1,0 +1,202 @@
+{
+  "version": "1.0",
+  "title": "Newton's Three Laws of Motion",
+  "canvas": { "aspect_ratio": "16:9", "background_color": "white" },
+  "transcript": "Newton's three laws of motion describe how forces affect objects. The first law states that an object at rest stays at rest unless a force acts upon it. The second law states that force equals mass times acceleration, written as F equals m times a. The third law states that for every action there is an equal and opposite reaction. These three laws are the foundation of classical mechanics.",
+  "default_animation": { "type": "fade_in", "easing": "ease_out" },
+  "actions": [
+    {
+      "action_id": "create_title",
+      "action_type": "create",
+      "trigger_phrase": "Newton's three laws of motion describe",
+      "element": {
+        "id": "title",
+        "element_type": "text",
+        "content": "Newton's Three Laws of Motion",
+        "font_size": "large",
+        "color": "black",
+        "bold": true,
+        "max_width_percent": 60,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 10, "anchor": "center" }
+      },
+      "animation": { "type": "typewriter" }
+    },
+    {
+      "action_id": "create_law1_box",
+      "action_type": "create",
+      "trigger_phrase": "The first law states that an object at rest",
+      "element": {
+        "id": "law1_box",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 55,
+        "height_percent": 38,
+        "fill_color": "blue",
+        "border_color": "black",
+        "border_width": 3,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 55, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_law1_title",
+      "action_type": "create",
+      "trigger_phrase": "The first law states that an object at rest",
+      "element": {
+        "id": "law1_title",
+        "element_type": "text",
+        "content": "Law 1: Inertia",
+        "font_size": "large",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 40,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 46, "anchor": "center" }
+      }
+    },
+    {
+      "action_id": "create_law1_desc",
+      "action_type": "create",
+      "trigger_phrase": "The first law states that an object at rest",
+      "element": {
+        "id": "law1_desc",
+        "element_type": "text",
+        "content": "An object at rest stays at rest. An object in motion stays in motion.",
+        "font_size": "medium",
+        "color": "white",
+        "max_width_percent": 46,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 58, "anchor": "center" }
+      },
+      "animation": { "type": "typewriter" }
+    },
+    {
+      "action_id": "delete_law1_box",
+      "action_type": "delete",
+      "trigger_phrase": "The second law states that force equals mass",
+      "element_id": "law1_box"
+    },
+    {
+      "action_id": "delete_law1_title",
+      "action_type": "delete",
+      "trigger_phrase": "The second law states that force equals mass",
+      "element_id": "law1_title"
+    },
+    {
+      "action_id": "delete_law1_desc",
+      "action_type": "delete",
+      "trigger_phrase": "The second law states that force equals mass",
+      "element_id": "law1_desc"
+    },
+    {
+      "action_id": "create_law2_box",
+      "action_type": "create",
+      "trigger_phrase": "The second law states that force equals mass",
+      "element": {
+        "id": "law2_box",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 55,
+        "height_percent": 38,
+        "fill_color": "green",
+        "border_color": "black",
+        "border_width": 3,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 55, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_law2_title",
+      "action_type": "create",
+      "trigger_phrase": "The second law states that force equals mass",
+      "element": {
+        "id": "law2_title",
+        "element_type": "text",
+        "content": "Law 2: F = ma",
+        "font_size": "large",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 40,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 46, "anchor": "center" }
+      }
+    },
+    {
+      "action_id": "create_law2_desc",
+      "action_type": "create",
+      "trigger_phrase": "The second law states that force equals mass",
+      "element": {
+        "id": "law2_desc",
+        "element_type": "text",
+        "content": "Force = Mass x Acceleration",
+        "font_size": "medium",
+        "color": "white",
+        "max_width_percent": 46,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 58, "anchor": "center" }
+      },
+      "animation": { "type": "typewriter" }
+    },
+    {
+      "action_id": "delete_law2_box",
+      "action_type": "delete",
+      "trigger_phrase": "The third law states that for every action",
+      "element_id": "law2_box"
+    },
+    {
+      "action_id": "delete_law2_title",
+      "action_type": "delete",
+      "trigger_phrase": "The third law states that for every action",
+      "element_id": "law2_title"
+    },
+    {
+      "action_id": "delete_law2_desc",
+      "action_type": "delete",
+      "trigger_phrase": "The third law states that for every action",
+      "element_id": "law2_desc"
+    },
+    {
+      "action_id": "create_law3_box",
+      "action_type": "create",
+      "trigger_phrase": "The third law states that for every action",
+      "element": {
+        "id": "law3_box",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 55,
+        "height_percent": 38,
+        "fill_color": "orange",
+        "border_color": "black",
+        "border_width": 3,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 55, "anchor": "center" }
+      },
+      "animation": { "type": "pop_in" }
+    },
+    {
+      "action_id": "create_law3_title",
+      "action_type": "create",
+      "trigger_phrase": "The third law states that for every action",
+      "element": {
+        "id": "law3_title",
+        "element_type": "text",
+        "content": "Law 3: Action-Reaction",
+        "font_size": "large",
+        "color": "white",
+        "bold": true,
+        "max_width_percent": 44,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 46, "anchor": "center" }
+      }
+    },
+    {
+      "action_id": "create_law3_desc",
+      "action_type": "create",
+      "trigger_phrase": "The third law states that for every action",
+      "element": {
+        "id": "law3_desc",
+        "element_type": "text",
+        "content": "For every action there is an equal and opposite reaction.",
+        "font_size": "medium",
+        "color": "white",
+        "max_width_percent": 46,
+        "position": { "type": "canvas", "x_percent": 50, "y_percent": 58, "anchor": "center" }
+      },
+      "animation": { "type": "typewriter" }
+    }
+  ]
+}

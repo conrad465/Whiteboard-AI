@@ -50,7 +50,33 @@ export type RelativePlacement =
   | "center_of"
   | "overlapping";
 
+/** Anchor points on a rectangle: four vertices, four edge midpoints, and center */
+export type RectangleAnchor =
+  | "top_left" | "top" | "top_right"
+  | "left"     | "center" | "right"
+  | "bottom_left" | "bottom" | "bottom_right";
+
+/** Anchor points on a triangle: three vertices, midpoints of each edge, and center */
+export type TriangleAnchor =
+  | "apex" | "bottom_left" | "bottom_right"
+  | "left_edge"   // midpoint of apex → bottom_left
+  | "right_edge"  // midpoint of apex → bottom_right
+  | "bottom"      // midpoint of bottom_left → bottom_right
+  | "center";     // centroid
+
+/** Anchor points on a circle/ellipse: cardinal + intercardinal directions */
+export type CircleAnchor = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW" | "center";
+
+export type ShapeAnchor = RectangleAnchor | TriangleAnchor | CircleAnchor;
+
 export type FontSize = "small" | "medium" | "large" | "xlarge";
+
+export type TextAlign = "left" | "center" | "right";
+
+export type ShapeTextPosition =
+  | "top_left"    | "top_center"    | "top_right"
+  | "middle_left" | "middle_center" | "middle_right"
+  | "bottom_left" | "bottom_center" | "bottom_right";
 
 // -----------------------------------------------------------------------------
 // Positioning — two modes, no pixel math required
@@ -90,7 +116,26 @@ export interface RelativeElementPosition {
   align?: AnchorPoint;
 }
 
-export type Position = CanvasPosition | RelativeElementPosition;
+/**
+ * Connect an arrow between two named shape elements via their anchor points.
+ * The arrow's length and rotation are computed automatically.
+ * Only valid on shape elements with shape:"arrow" or shape:"line".
+ *
+ * IMPORTANT: Both referenced elements must be created BEFORE this one in the actions list.
+ */
+export interface ConnectedPosition {
+  type: "connected";
+  /** ID of the element the arrow starts from */
+  from_element: string;
+  /** Anchor point on the from element */
+  from_anchor: ShapeAnchor;
+  /** ID of the element the arrow points to */
+  to_element: string;
+  /** Anchor point on the to element */
+  to_anchor: ShapeAnchor;
+}
+
+export type Position = CanvasPosition | RelativeElementPosition | ConnectedPosition;
 
 // -----------------------------------------------------------------------------
 // Elements
@@ -111,6 +156,16 @@ export interface ShapeElement {
   /** Clockwise rotation in degrees. Default: 0 */
   rotation_degrees?: number;
   position: Position;
+  /** Optional text label rendered inside the shape */
+  text?: string;
+  /** Color of the text label. Default: black */
+  text_color?: NamedColor;
+  /** Font size of the text label. Default: medium */
+  font_size?: FontSize;
+  /** Horizontal alignment of the text label. Default: center */
+  text_align?: TextAlign;
+  /** Position of the text within the shape's 3×3 grid. Default: middle_center */
+  text_position?: ShapeTextPosition;
   /** Runtime only — do not set in JSON */
   opacity?: number;
 }
@@ -124,8 +179,10 @@ export interface TextElement {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
-  /** Max text wrap width as % of canvas width. Default: 20 */
+  /** Max text wrap width as % of canvas width. Default: 30 */
   max_width_percent?: number;
+  /** Horizontal text alignment. Default: left */
+  text_align?: TextAlign;
   position: Position;
   /** Runtime only — do not set in JSON */
   opacity?: number;

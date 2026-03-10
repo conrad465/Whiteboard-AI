@@ -4,15 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "dev":               "vite",
+    "build":             "tsc && vite build",
+    "preview":           "vite preview",
+    "test:generate":     "tsx scripts/generate-scenes.ts",
+    "test:generate:all": "tsx scripts/generate-scenes.ts --all",
+    "test:validate":     "tsx scripts/generate-scenes.ts --validate"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.1"
   },
   "dependencies": {
-    "ajv": "^8.18.0"
+    "ajv": "^8.18.0",
+    "xlsx": "^0.18.5"
   }
 }
