@@ -172,24 +172,30 @@ export class AnimationController {
   // ---------------------------------------------------------------------------
 
   private computeProgress(anim: ActiveAnimation, now: number): number {
+    let raw: number;
+
     if (anim.endTime !== null) {
       // Exact end time known — use wall-clock progress
       const duration = Math.max(anim.endTime - anim.startTime, 1);
-      return Math.min((now - anim.startTime) / duration, 1.0);
+      raw = Math.min((now - anim.startTime) / duration, 1.0);
+    } else {
+      const type = anim.config.type;
+
+      if ((type === "typewriter" || type === "draw_in") && anim.estimatedEndTime !== null) {
+        // For reveal animations: use phrase-timing estimate without a soft-cap.
+        // This tracks speech and lets the animation complete as the last word is spoken.
+        const duration = Math.max(anim.estimatedEndTime - anim.startTime, 1);
+        raw = Math.min((now - anim.startTime) / duration, 1.0);
+      } else {
+        // Fallback for other animations or before any word events arrive: soft-cap
+        const elapsed = now - anim.startTime;
+        raw = Math.min((elapsed / SOFTCAP_DURATION_MS) * SOFTCAP_PROGRESS, SOFTCAP_PROGRESS);
+      }
     }
 
-    const type = anim.config.type;
-
-    if ((type === "typewriter" || type === "draw_in") && anim.estimatedEndTime !== null) {
-      // For reveal animations: use phrase-timing estimate without a soft-cap.
-      // This tracks speech and lets the animation complete as the last word is spoken.
-      const duration = Math.max(anim.estimatedEndTime - anim.startTime, 1);
-      return Math.min((now - anim.startTime) / duration, 1.0);
-    }
-
-    // Fallback for other animations or before any word events arrive: soft-cap
-    const elapsed = now - anim.startTime;
-    return Math.min((elapsed / SOFTCAP_DURATION_MS) * SOFTCAP_PROGRESS, SOFTCAP_PROGRESS);
+    // Guarantee monotonic increase — prevents jitter when estimatedEndTime first
+    // becomes available and its initial estimate is behind the current soft-cap progress.
+    return Math.max(raw, anim.progress);
   }
 
   // ---------------------------------------------------------------------------

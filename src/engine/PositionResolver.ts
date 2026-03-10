@@ -3,11 +3,13 @@ import type {
   RelativeElementPosition,
   ConnectedPosition,
   WhiteboardElement,
+  TextElement,
   AnchorPoint,
   RelativePlacement,
   ShapeAnchor,
 } from "../schema/types";
 import type { ResolvedGeometry, LiveElement, SceneGraph } from "./SceneGraph";
+import { FONT_SIZE_MAP } from "../schema/colors";
 
 // -----------------------------------------------------------------------------
 // Anchor → offset from top-left corner of element's bounding box
@@ -77,7 +79,9 @@ export class PositionResolver {
     const width = element.element_type === "shape"
       ? (element.width_percent / 100) * this.canvasWidth
       : ((element.max_width_percent ?? 30) / 100) * this.canvasWidth;
-    const height = (("height_percent" in element ? element.height_percent : 10) / 100) * this.canvasHeight;
+    const height = element.element_type === "shape"
+      ? (element.height_percent / 100) * this.canvasHeight
+      : this.estimateTextHeight(element);
     const rotation = ("rotation_degrees" in element ? element.rotation_degrees : 0) ?? 0;
 
     if (element.position.type === "canvas") {
@@ -253,6 +257,19 @@ export class PositionResolver {
       case "center": return { x: cx,           y: cy              };
       default:       return { x: cx,           y: cy              };
     }
+  }
+
+  /**
+   * Estimate the rendered height of a text element in canvas pixels.
+   * Uses font size and explicit newline count as a proxy for line count.
+   * This is intentionally conservative (single-line default) so labels
+   * sit close to their reference elements rather than too far away.
+   */
+  private estimateTextHeight(element: TextElement): number {
+    const fontSize   = FONT_SIZE_MAP[element.font_size];
+    const lineHeight = fontSize * 1.35;
+    const lineCount  = 1 + (element.content.match(/\n/g) ?? []).length;
+    return lineHeight * lineCount;
   }
 
   /**
