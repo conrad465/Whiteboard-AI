@@ -1,7 +1,8 @@
 import { WhiteboardPlayer, type PlayerState } from "./WhiteboardPlayer";
+import { StockFlowPlayer } from "../scene-types/stock-flow/StockFlowPlayer";
+import type { StockFlowScene } from "../scene-types/stock-flow/types";
 import { TranscriptViewer } from "./TranscriptViewer";
 import { TestingPanel } from "./TestingPanel";
-import { SceneLoader } from "../engine/SceneLoader";
 import type { SceneDefinition } from "../schema/types";
 
 // -----------------------------------------------------------------------------
@@ -45,16 +46,51 @@ function resizeCanvas(): void {
 resizeCanvas();
 window.addEventListener("resize", () => {
   resizeCanvas();
-  player.resize(canvas.width, canvas.height);
+  activePlayer?.resize(canvas.width, canvas.height);
 });
 
 // -----------------------------------------------------------------------------
-// Player + TranscriptViewer
+// Player abstraction — unifies WhiteboardPlayer and StockFlowPlayer
 // -----------------------------------------------------------------------------
 
-const player = new WhiteboardPlayer(canvas);
+interface UnifiedPlayer {
+  play(): void;
+  pause(): void;
+  stop(): void;
+  resize(w: number, h: number): void;
+  onStateChanged(handler: (state: PlayerState) => void): void;
+  destroy(): void;
+}
+
+function wrapWhiteboardPlayer(canvas: HTMLCanvasElement, viewer: TranscriptViewer): UnifiedPlayer & { loadScene(s: SceneDefinition): void } {
+  const p = new WhiteboardPlayer(canvas);
+  p.setTranscriptViewer(viewer);
+  return {
+    play: () => p.play(),
+    pause: () => p.pause(),
+    stop: () => p.stop(),
+    resize: (w, h) => p.resize(w, h),
+    onStateChanged: (h) => p.onStateChanged(h),
+    destroy: () => p.stop(),
+    loadScene: (s) => p.loadScene(s),
+  };
+}
+
+function wrapStockFlowPlayer(canvas: HTMLCanvasElement): UnifiedPlayer & { loadScene(s: StockFlowScene): void } {
+  const p = new StockFlowPlayer(canvas);
+  return {
+    play: () => p.play(),
+    pause: () => p.pause(),
+    stop: () => p.stop(),
+    resize: (w, h) => p.resize(w, h),
+    onStateChanged: (h) => p.onStateChanged(h),
+    destroy: () => p.destroy(),
+    loadScene: (s) => p.loadScene(s),
+  };
+}
+
 const viewer = new TranscriptViewer(txContainer);
-player.setTranscriptViewer(viewer);
+let activePlayer: UnifiedPlayer | null = null;
 
 function setStatus(state: PlayerState): void {
   const labels: Record<PlayerState, string> = {
@@ -70,21 +106,45 @@ function setStatus(state: PlayerState): void {
   stopBtn.disabled  = state === "idle" || state === "finished";
 }
 
-player.onStateChanged(setStatus);
+/** Detect scene type from raw JSON and load appropriate player */
+function loadSceneFromJson(json: unknown): void {
+  const obj = json as Record<string, unknown>;
+
+  if (activePlayer) {
+    activePlayer.stop();
+    activePlayer.destroy();
+    activePlayer = null;
+  }
+
+  if (obj.scene_type === "stock_and_flow") {
+    const sfPlayer = wrapStockFlowPlayer(canvas);
+    sfPlayer.onStateChanged(setStatus);
+    sfPlayer.loadScene(obj as unknown as StockFlowScene);
+    activePlayer = sfPlayer;
+  } else {
+    const wbPlayer = wrapWhiteboardPlayer(canvas, viewer);
+    wbPlayer.onStateChanged(setStatus);
+    wbPlayer.loadScene(obj as unknown as SceneDefinition);
+    activePlayer = wbPlayer;
+  }
+
+  setStatus("idle");
+}
 
 // ---------------------------------------------------------------------------
 // Load default sample scene on startup
 // ---------------------------------------------------------------------------
 
-let currentScene: SceneDefinition | null = null;
+let currentSceneJson: unknown = null;
 
 async function loadDefaultScene(): Promise<void> {
   try {
-    const scene = await SceneLoader.loadFromUrl(import.meta.env.BASE_URL + "sample-scene.json");
-    currentScene = scene;
-    player.loadScene(scene);
-    sceneInput.value = JSON.stringify(scene, null, 2);
-    setStatus("idle");
+    const resp = await fetch(import.meta.env.BASE_URL + "sample-scene.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const json = await resp.json();
+    currentSceneJson = json;
+    sceneInput.value = JSON.stringify(json, null, 2);
+    loadSceneFromJson(json);
   } catch (err) {
     statusEl.textContent = `Error loading scene: ${(err as Error).message}`;
     console.error(err);
@@ -98,15 +158,16 @@ loadDefaultScene();
 // ---------------------------------------------------------------------------
 
 playBtn.addEventListener("click", () => {
-  if (!currentScene) return;
-  player.play();
+  if (!activePlayer || !currentSceneJson) return;
+  activePlayer.play();
 });
 
-pauseBtn.addEventListener("click", () => { player.pause(); });
+pauseBtn.addEventListener("click", () => { activePlayer?.pause(); });
 
 stopBtn.addEventListener("click", () => {
-  player.stop();
-  if (currentScene) player.loadScene(currentScene);
+  if (!activePlayer || !currentSceneJson) return;
+  activePlayer.stop();
+  loadSceneFromJson(currentSceneJson);
   viewer.reset();
   setStatus("idle");
 });
@@ -117,10 +178,9 @@ stopBtn.addEventListener("click", () => {
 
 loadJsonBtn.addEventListener("click", () => {
   try {
-    const scene = SceneLoader.loadFromString(sceneInput.value);
-    currentScene = scene;
-    player.loadScene(scene);
-    setStatus("idle");
+    const json = JSON.parse(sceneInput.value);
+    currentSceneJson = json;
+    loadSceneFromJson(json);
   } catch (err) {
     statusEl.textContent = `Scene error: ${(err as Error).message}`;
     console.error(err);
@@ -149,11 +209,10 @@ function setTestingMode(active: boolean): void {
     if (!testingPanel) {
       testingPanel = new TestingPanel(testPanelEl, import.meta.env.BASE_URL);
       testingPanel.onLoad((scene, tc) => {
-        currentScene = scene;
-        player.stop();
-        player.loadScene(scene);
+        currentSceneJson = scene;
+        activePlayer?.stop();
+        loadSceneFromJson(scene);
         viewer.reset();
-        setStatus("idle");
         // Mirror JSON into editor so users can inspect it
         sceneInput.value = JSON.stringify(scene, null, 2);
         statusEl.textContent = `Loaded: ${tc.name}`;

@@ -1,0 +1,47 @@
+{
+  "scene_type": "stock_and_flow",
+  "version": "0.1",
+  "title": "The Bathtub — A Simple Stock & Flow System",
+  "transcript": "Let's explore the simplest stock and flow system: a bathtub. The bathtub itself is our stock — it holds water. Water flows in through the faucet. That's our inflow. And water drains out through the drain. That's our outflow. The water level in the tub depends on the balance between these two flows. If the faucet runs faster than the drain, the tub fills up. If the drain is faster, the tub empties. This is the fundamental insight of systems thinking: stocks change through their flows.",
+  "colors": {
+    "stock": "blue",
+    "inflow": "green",
+    "outflow": "red"
+  },
+  "system": {
+    "stocks": [
+      { "id": "water", "label": "Water in Tub" }
+    ],
+    "flows": [
+      { "id": "faucet", "label": "Faucet", "type": "inflow", "to_stock": "water" },
+      { "id": "drain", "label": "Drain", "type": "outflow", "from_stock": "water" }
+    ]
+  },
+  "narrative": [
+    {
+      "trigger_phrase": "The bathtub itself is our stock",
+      "action": "enter",
+      "targets": ["water"]
+    },
+    {
+      "trigger_phrase": "Water flows in through the faucet",
+      "action": "enter",
+      "targets": ["faucet"]
+    },
+    {
+      "trigger_phrase": "water drains out through the drain",
+      "action": "enter",
+      "targets": ["drain"]
+    },
+    {
+      "trigger_phrase": "the tub fills up",
+      "action": "emphasize",
+      "targets": ["water"]
+    },
+    {
+      "trigger_phrase": "the tub empties",
+      "action": "emphasize",
+      "targets": ["drain"]
+    }
+  ]
+}
