@@ -1,199 +1,178 @@
 {
   "version": "1.0",
   "title": "Supply and Demand",
-  "canvas": { "aspect_ratio": "16:9", "background_color": "white" },
-  "transcript": "Supply and demand are the forces that drive prices in a market. The supply curve slopes upward, meaning producers offer more as prices rise. The demand curve slopes downward, meaning consumers buy less as prices rise. These two curves intersect at the equilibrium point. At equilibrium we identify the equilibrium price and the equilibrium quantity.",
-  "default_animation": { "type": "fade_in", "easing": "ease_out" },
+  "canvas": {
+    "aspect_ratio": "16:9",
+    "background_color": "white"
+  },
+  "transcript": "The demand curve slopes downward because people buy less when prices are high. The supply curve slopes upward because producers offer more at higher prices. Where the two curves cross is the equilibrium point. This determines both the equilibrium price and the equilibrium quantity in the market.",
+  "default_animation": {
+    "type": "fade_in",
+    "easing": "ease_out"
+  },
   "actions": [
     {
-      "action_id": "create_yaxis",
-      "action_type": "create",
-      "trigger_phrase": "Supply and demand are the forces that drive prices",
-      "element": {
-        "id": "yaxis",
-        "element_type": "shape",
-        "shape": "arrow",
-        "width_percent": 52,
-        "height_percent": 3,
-        "fill_color": "black",
-        "border_color": "black",
-        "border_width": 2,
-        "rotation_degrees": -90,
-        "position": { "type": "canvas", "x_percent": 20, "y_percent": 46, "anchor": "center" }
-      },
-      "animation": { "type": "draw_in", "direction": "left_to_right" }
-    },
-    {
-      "action_id": "create_xaxis",
-      "action_type": "create",
-      "trigger_phrase": "Supply and demand are the forces that drive prices",
-      "element": {
-        "id": "xaxis",
-        "element_type": "shape",
-        "shape": "arrow",
-        "width_percent": 60,
-        "height_percent": 3,
-        "fill_color": "black",
-        "border_color": "black",
-        "border_width": 2,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 73, "anchor": "center" }
-      },
-      "animation": { "type": "draw_in", "direction": "left_to_right" }
-    },
-    {
-      "action_id": "create_price_label",
-      "action_type": "create",
-      "trigger_phrase": "Supply and demand are the forces that drive prices",
-      "element": {
-        "id": "price_label",
-        "element_type": "text",
-        "content": "Price",
-        "font_size": "small",
-        "color": "black",
-        "bold": true,
-        "max_width_percent": 12,
-        "position": { "type": "canvas", "x_percent": 11, "y_percent": 20, "anchor": "center" }
-      }
-    },
-    {
-      "action_id": "create_qty_label",
-      "action_type": "create",
-      "trigger_phrase": "Supply and demand are the forces that drive prices",
-      "element": {
-        "id": "qty_label",
-        "element_type": "text",
-        "content": "Quantity",
-        "font_size": "small",
-        "color": "black",
-        "bold": true,
-        "max_width_percent": 16,
-        "position": { "type": "canvas", "x_percent": 82, "y_percent": 80, "anchor": "center" }
-      }
-    },
-    {
-      "action_id": "create_supply",
-      "action_type": "create",
-      "trigger_phrase": "The supply curve slopes upward",
-      "element": {
-        "id": "supply",
-        "element_type": "shape",
-        "shape": "arrow",
-        "width_percent": 46,
-        "height_percent": 3,
-        "fill_color": "blue",
-        "border_color": "blue",
-        "border_width": 2,
-        "rotation_degrees": -45,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 50, "anchor": "center" }
-      },
-      "animation": { "type": "draw_in", "direction": "left_to_right" }
-    },
-    {
-      "action_id": "create_supply_label",
-      "action_type": "create",
-      "trigger_phrase": "The supply curve slopes upward",
-      "element": {
-        "id": "supply_label",
-        "element_type": "text",
-        "content": "Supply",
-        "font_size": "medium",
-        "color": "blue",
-        "bold": true,
-        "max_width_percent": 14,
-        "position": { "type": "canvas", "x_percent": 76, "y_percent": 22, "anchor": "center" }
-      }
-    },
-    {
-      "action_id": "create_demand",
+      "action_id": "create_demand_curve",
       "action_type": "create",
       "trigger_phrase": "The demand curve slopes downward",
       "element": {
-        "id": "demand",
+        "id": "demand_curve",
         "element_type": "shape",
         "shape": "arrow",
-        "width_percent": 46,
-        "height_percent": 3,
-        "fill_color": "red",
-        "border_color": "red",
-        "border_width": 2,
+        "width_percent": 40,
+        "height_percent": 2,
+        "fill_color": "blue",
+        "border_color": "blue",
         "rotation_degrees": 45,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 50, "anchor": "center" }
+        "position": {
+          "type": "canvas",
+          "x_percent": 30,
+          "y_percent": 30,
+          "anchor": "top_left"
+        }
       },
-      "animation": { "type": "draw_in", "direction": "left_to_right" }
+      "animation": {
+        "type": "draw_in",
+        "direction": "left_to_right"
+      }
     },
     {
       "action_id": "create_demand_label",
       "action_type": "create",
-      "trigger_phrase": "The demand curve slopes downward",
+      "trigger_phrase": "people buy less when prices are high",
       "element": {
         "id": "demand_label",
         "element_type": "text",
         "content": "Demand",
         "font_size": "medium",
+        "color": "blue",
+        "bold": true,
+        "position": {
+          "type": "canvas",
+          "x_percent": 18,
+          "y_percent": 25,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "typewriter"
+      }
+    },
+    {
+      "action_id": "create_supply_curve",
+      "action_type": "create",
+      "trigger_phrase": "The supply curve slopes upward",
+      "element": {
+        "id": "supply_curve",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 40,
+        "height_percent": 2,
+        "fill_color": "red",
+        "border_color": "red",
+        "rotation_degrees": -45,
+        "position": {
+          "type": "canvas",
+          "x_percent": 30,
+          "y_percent": 70,
+          "anchor": "bottom_left"
+        }
+      },
+      "animation": {
+        "type": "draw_in",
+        "direction": "left_to_right"
+      }
+    },
+    {
+      "action_id": "create_supply_label",
+      "action_type": "create",
+      "trigger_phrase": "producers offer more at higher prices",
+      "element": {
+        "id": "supply_label",
+        "element_type": "text",
+        "content": "Supply",
+        "font_size": "medium",
         "color": "red",
         "bold": true,
-        "max_width_percent": 14,
-        "position": { "type": "canvas", "x_percent": 76, "y_percent": 72, "anchor": "center" }
+        "position": {
+          "type": "canvas",
+          "x_percent": 18,
+          "y_percent": 75,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "typewriter"
       }
     },
     {
-      "action_id": "create_eq_point",
+      "action_id": "create_equilibrium_point",
       "action_type": "create",
-      "trigger_phrase": "These two curves intersect at the equilibrium point",
+      "trigger_phrase": "the equilibrium point",
       "element": {
-        "id": "eq_point",
+        "id": "equilibrium_point",
         "element_type": "shape",
         "shape": "circle",
-        "width_percent": 3,
-        "height_percent": 5,
-        "fill_color": "green",
+        "width_percent": 4,
+        "height_percent": 7,
+        "fill_color": "yellow",
         "border_color": "black",
-        "border_width": 2,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 50, "anchor": "center" }
+        "border_width": 3,
+        "position": {
+          "type": "canvas",
+          "x_percent": 50,
+          "y_percent": 50,
+          "anchor": "center"
+        }
       },
-      "animation": { "type": "pop_in" }
+      "animation": {
+        "type": "pop_in"
+      }
     },
     {
-      "action_id": "create_eq_text",
+      "action_id": "create_price_label",
       "action_type": "create",
-      "trigger_phrase": "These two curves intersect at the equilibrium point",
+      "trigger_phrase": "the equilibrium price",
       "element": {
-        "id": "eq_text",
+        "id": "price_label",
         "element_type": "text",
-        "content": "Equilibrium",
-        "font_size": "small",
+        "content": "Equilibrium\nPrice",
+        "font_size": "medium",
         "color": "green",
         "bold": true,
-        "max_width_percent": 18,
-        "position": { "type": "relative", "relative_to": "eq_point", "placement": "top_right_of", "gap_percent": 1 }
+        "text_align": "right",
+        "position": {
+          "type": "canvas",
+          "x_percent": 12,
+          "y_percent": 50,
+          "anchor": "right"
+        }
+      },
+      "animation": {
+        "type": "typewriter"
       }
     },
     {
-      "action_id": "create_eq_price",
+      "action_id": "create_quantity_label",
       "action_type": "create",
-      "trigger_phrase": "equilibrium price and the equilibrium quantity",
+      "trigger_phrase": "equilibrium quantity",
       "element": {
-        "id": "eq_price",
+        "id": "quantity_label",
         "element_type": "text",
-        "content": "Eq. Price",
-        "font_size": "small",
-        "color": "black",
-        "max_width_percent": 14,
-        "position": { "type": "canvas", "x_percent": 11, "y_percent": 50, "anchor": "center" }
-      }
-    },
-    {
-      "action_id": "create_eq_qty",
-      "action_type": "create",
-      "trigger_phrase": "equilibrium price and the equilibrium quantity",
-      "element": {
-        "id": "eq_qty",
-        "element_type": "text",
-        "content": "Eq. Quantity",
-        "font_size": "small",
-        "color": "black",
-        "max_width_percent": 16,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 84, "anchor": "center" }
+        "content": "Equilibrium Quantity",
+        "font_size": "medium",
+        "color": "green",
+        "bold": true,
+        "text_align": "center",
+        "position": {
+          "type": "canvas",
+          "x_percent": 50,
+          "y_percent": 90,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "typewriter"
       }
     }
   ]

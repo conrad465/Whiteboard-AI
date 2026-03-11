@@ -1,202 +1,374 @@
 {
   "version": "1.0",
   "title": "Newton's Three Laws of Motion",
-  "canvas": { "aspect_ratio": "16:9", "background_color": "white" },
-  "transcript": "Newton's three laws of motion describe how forces affect objects. The first law states that an object at rest stays at rest unless a force acts upon it. The second law states that force equals mass times acceleration, written as F equals m times a. The third law states that for every action there is an equal and opposite reaction. These three laws are the foundation of classical mechanics.",
-  "default_animation": { "type": "fade_in", "easing": "ease_out" },
+  "canvas": {
+    "aspect_ratio": "16:9",
+    "background_color": "white"
+  },
+  "transcript": "Newton's First Law: an object at rest stays at rest unless acted upon by a force. Newton's Second Law: force equals mass times acceleration. Newton's Third Law: every action has an equal and opposite reaction.",
+  "default_animation": {
+    "type": "fade_in",
+    "easing": "ease_out"
+  },
   "actions": [
     {
-      "action_id": "create_title",
+      "action_id": "create_law1_label",
       "action_type": "create",
-      "trigger_phrase": "Newton's three laws of motion describe",
+      "trigger_phrase": "Newton's First Law:",
       "element": {
-        "id": "title",
+        "id": "law1_label",
         "element_type": "text",
-        "content": "Newton's Three Laws of Motion",
-        "font_size": "large",
-        "color": "black",
+        "content": "1st Law: Inertia",
+        "font_size": "xlarge",
+        "color": "blue",
         "bold": true,
-        "max_width_percent": 60,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 10, "anchor": "center" }
+        "position": {
+          "type": "canvas",
+          "x_percent": 50,
+          "y_percent": 15,
+          "anchor": "center"
+        }
       },
-      "animation": { "type": "typewriter" }
-    },
-    {
-      "action_id": "create_law1_box",
-      "action_type": "create",
-      "trigger_phrase": "The first law states that an object at rest",
-      "element": {
-        "id": "law1_box",
-        "element_type": "shape",
-        "shape": "rectangle",
-        "width_percent": 55,
-        "height_percent": 38,
-        "fill_color": "blue",
-        "border_color": "black",
-        "border_width": 3,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 55, "anchor": "center" }
-      },
-      "animation": { "type": "pop_in" }
-    },
-    {
-      "action_id": "create_law1_title",
-      "action_type": "create",
-      "trigger_phrase": "The first law states that an object at rest",
-      "element": {
-        "id": "law1_title",
-        "element_type": "text",
-        "content": "Law 1: Inertia",
-        "font_size": "large",
-        "color": "white",
-        "bold": true,
-        "max_width_percent": 40,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 46, "anchor": "center" }
+      "animation": {
+        "type": "typewriter"
       }
     },
     {
-      "action_id": "create_law1_desc",
+      "action_id": "create_resting_ball",
       "action_type": "create",
-      "trigger_phrase": "The first law states that an object at rest",
+      "trigger_phrase": "an object at rest stays at rest",
       "element": {
-        "id": "law1_desc",
-        "element_type": "text",
-        "content": "An object at rest stays at rest. An object in motion stays in motion.",
-        "font_size": "medium",
-        "color": "white",
-        "max_width_percent": 46,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 58, "anchor": "center" }
-      },
-      "animation": { "type": "typewriter" }
-    },
-    {
-      "action_id": "delete_law1_box",
-      "action_type": "delete",
-      "trigger_phrase": "The second law states that force equals mass",
-      "element_id": "law1_box"
-    },
-    {
-      "action_id": "delete_law1_title",
-      "action_type": "delete",
-      "trigger_phrase": "The second law states that force equals mass",
-      "element_id": "law1_title"
-    },
-    {
-      "action_id": "delete_law1_desc",
-      "action_type": "delete",
-      "trigger_phrase": "The second law states that force equals mass",
-      "element_id": "law1_desc"
-    },
-    {
-      "action_id": "create_law2_box",
-      "action_type": "create",
-      "trigger_phrase": "The second law states that force equals mass",
-      "element": {
-        "id": "law2_box",
+        "id": "resting_ball",
         "element_type": "shape",
-        "shape": "rectangle",
-        "width_percent": 55,
-        "height_percent": 38,
-        "fill_color": "green",
-        "border_color": "black",
-        "border_width": 3,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 55, "anchor": "center" }
-      },
-      "animation": { "type": "pop_in" }
-    },
-    {
-      "action_id": "create_law2_title",
-      "action_type": "create",
-      "trigger_phrase": "The second law states that force equals mass",
-      "element": {
-        "id": "law2_title",
-        "element_type": "text",
-        "content": "Law 2: F = ma",
-        "font_size": "large",
-        "color": "white",
-        "bold": true,
-        "max_width_percent": 40,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 46, "anchor": "center" }
-      }
-    },
-    {
-      "action_id": "create_law2_desc",
-      "action_type": "create",
-      "trigger_phrase": "The second law states that force equals mass",
-      "element": {
-        "id": "law2_desc",
-        "element_type": "text",
-        "content": "Force = Mass x Acceleration",
-        "font_size": "medium",
-        "color": "white",
-        "max_width_percent": 46,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 58, "anchor": "center" }
-      },
-      "animation": { "type": "typewriter" }
-    },
-    {
-      "action_id": "delete_law2_box",
-      "action_type": "delete",
-      "trigger_phrase": "The third law states that for every action",
-      "element_id": "law2_box"
-    },
-    {
-      "action_id": "delete_law2_title",
-      "action_type": "delete",
-      "trigger_phrase": "The third law states that for every action",
-      "element_id": "law2_title"
-    },
-    {
-      "action_id": "delete_law2_desc",
-      "action_type": "delete",
-      "trigger_phrase": "The third law states that for every action",
-      "element_id": "law2_desc"
-    },
-    {
-      "action_id": "create_law3_box",
-      "action_type": "create",
-      "trigger_phrase": "The third law states that for every action",
-      "element": {
-        "id": "law3_box",
-        "element_type": "shape",
-        "shape": "rectangle",
-        "width_percent": 55,
-        "height_percent": 38,
+        "shape": "circle",
+        "width_percent": 12,
+        "height_percent": 12,
         "fill_color": "orange",
         "border_color": "black",
-        "border_width": 3,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 55, "anchor": "center" }
+        "border_width": 2,
+        "position": {
+          "type": "canvas",
+          "x_percent": 30,
+          "y_percent": 50,
+          "anchor": "center"
+        }
       },
-      "animation": { "type": "pop_in" }
-    },
-    {
-      "action_id": "create_law3_title",
-      "action_type": "create",
-      "trigger_phrase": "The third law states that for every action",
-      "element": {
-        "id": "law3_title",
-        "element_type": "text",
-        "content": "Law 3: Action-Reaction",
-        "font_size": "large",
-        "color": "white",
-        "bold": true,
-        "max_width_percent": 44,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 46, "anchor": "center" }
+      "animation": {
+        "type": "pop_in"
       }
     },
     {
-      "action_id": "create_law3_desc",
+      "action_id": "create_force_arrow",
       "action_type": "create",
-      "trigger_phrase": "The third law states that for every action",
+      "trigger_phrase": "unless acted upon by a force",
       "element": {
-        "id": "law3_desc",
-        "element_type": "text",
-        "content": "For every action there is an equal and opposite reaction.",
-        "font_size": "medium",
-        "color": "white",
-        "max_width_percent": 46,
-        "position": { "type": "canvas", "x_percent": 50, "y_percent": 58, "anchor": "center" }
+        "id": "force_arrow",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 25,
+        "height_percent": 2,
+        "fill_color": "red",
+        "border_color": "red",
+        "position": {
+          "type": "relative",
+          "relative_to": "resting_ball",
+          "placement": "right_of",
+          "gap_percent": 2,
+          "align": "center"
+        }
       },
-      "animation": { "type": "typewriter" }
+      "animation": {
+        "type": "draw_in",
+        "direction": "left_to_right"
+      }
+    },
+    {
+      "action_id": "create_force_label",
+      "action_type": "create",
+      "trigger_phrase": "unless acted upon by a force",
+      "element": {
+        "id": "force_label",
+        "element_type": "text",
+        "content": "Force",
+        "font_size": "medium",
+        "color": "red",
+        "bold": true,
+        "position": {
+          "type": "relative",
+          "relative_to": "force_arrow",
+          "placement": "above",
+          "gap_percent": 1,
+          "align": "center"
+        }
+      }
+    },
+    {
+      "action_id": "delete_law1_label",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Second Law:",
+      "element_id": "law1_label"
+    },
+    {
+      "action_id": "delete_resting_ball",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Second Law:",
+      "element_id": "resting_ball"
+    },
+    {
+      "action_id": "delete_force_arrow",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Second Law:",
+      "element_id": "force_arrow"
+    },
+    {
+      "action_id": "delete_force_label",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Second Law:",
+      "element_id": "force_label"
+    },
+    {
+      "action_id": "create_law2_label",
+      "action_type": "create",
+      "trigger_phrase": "Newton's Second Law:",
+      "element": {
+        "id": "law2_label",
+        "element_type": "text",
+        "content": "2nd Law: F = ma",
+        "font_size": "xlarge",
+        "color": "blue",
+        "bold": true,
+        "position": {
+          "type": "canvas",
+          "x_percent": 50,
+          "y_percent": 15,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "typewriter"
+      }
+    },
+    {
+      "action_id": "create_mass_box",
+      "action_type": "create",
+      "trigger_phrase": "force equals mass",
+      "element": {
+        "id": "mass_box",
+        "element_type": "shape",
+        "shape": "rectangle",
+        "width_percent": 15,
+        "height_percent": 15,
+        "fill_color": "purple",
+        "border_color": "black",
+        "border_width": 2,
+        "text": "m",
+        "text_color": "white",
+        "font_size": "large",
+        "position": {
+          "type": "canvas",
+          "x_percent": 35,
+          "y_percent": 50,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "pop_in"
+      }
+    },
+    {
+      "action_id": "create_accel_arrow",
+      "action_type": "create",
+      "trigger_phrase": "times acceleration",
+      "element": {
+        "id": "accel_arrow",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 30,
+        "height_percent": 2,
+        "fill_color": "green",
+        "border_color": "green",
+        "position": {
+          "type": "relative",
+          "relative_to": "mass_box",
+          "placement": "right_of",
+          "gap_percent": 2,
+          "align": "center"
+        }
+      },
+      "animation": {
+        "type": "draw_in",
+        "direction": "left_to_right"
+      }
+    },
+    {
+      "action_id": "create_accel_label",
+      "action_type": "create",
+      "trigger_phrase": "times acceleration",
+      "element": {
+        "id": "accel_label",
+        "element_type": "text",
+        "content": "a",
+        "font_size": "large",
+        "color": "green",
+        "bold": true,
+        "position": {
+          "type": "relative",
+          "relative_to": "accel_arrow",
+          "placement": "above",
+          "gap_percent": 1,
+          "align": "center"
+        }
+      }
+    },
+    {
+      "action_id": "delete_law2_label",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Third Law:",
+      "element_id": "law2_label"
+    },
+    {
+      "action_id": "delete_mass_box",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Third Law:",
+      "element_id": "mass_box"
+    },
+    {
+      "action_id": "delete_accel_arrow",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Third Law:",
+      "element_id": "accel_arrow"
+    },
+    {
+      "action_id": "delete_accel_label",
+      "action_type": "delete",
+      "trigger_phrase": "Newton's Third Law:",
+      "element_id": "accel_label"
+    },
+    {
+      "action_id": "create_law3_label",
+      "action_type": "create",
+      "trigger_phrase": "Newton's Third Law:",
+      "element": {
+        "id": "law3_label",
+        "element_type": "text",
+        "content": "3rd Law: Action & Reaction",
+        "font_size": "xlarge",
+        "color": "blue",
+        "bold": true,
+        "position": {
+          "type": "canvas",
+          "x_percent": 50,
+          "y_percent": 15,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "typewriter"
+      }
+    },
+    {
+      "action_id": "create_object_a",
+      "action_type": "create",
+      "trigger_phrase": "every action has",
+      "element": {
+        "id": "object_a",
+        "element_type": "shape",
+        "shape": "circle",
+        "width_percent": 10,
+        "height_percent": 10,
+        "fill_color": "orange",
+        "border_color": "black",
+        "border_width": 2,
+        "text": "A",
+        "text_color": "white",
+        "font_size": "medium",
+        "position": {
+          "type": "canvas",
+          "x_percent": 35,
+          "y_percent": 50,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "pop_in"
+      }
+    },
+    {
+      "action_id": "create_object_b",
+      "action_type": "create",
+      "trigger_phrase": "every action has",
+      "element": {
+        "id": "object_b",
+        "element_type": "shape",
+        "shape": "circle",
+        "width_percent": 10,
+        "height_percent": 10,
+        "fill_color": "purple",
+        "border_color": "black",
+        "border_width": 2,
+        "text": "B",
+        "text_color": "white",
+        "font_size": "medium",
+        "position": {
+          "type": "canvas",
+          "x_percent": 65,
+          "y_percent": 50,
+          "anchor": "center"
+        }
+      },
+      "animation": {
+        "type": "pop_in"
+      }
+    },
+    {
+      "action_id": "create_action_arrow",
+      "action_type": "create",
+      "trigger_phrase": "an equal and opposite reaction",
+      "element": {
+        "id": "action_arrow",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 1,
+        "height_percent": 2,
+        "fill_color": "red",
+        "border_color": "red",
+        "position": {
+          "type": "connected",
+          "from_element": "object_a",
+          "from_anchor": "E",
+          "to_element": "object_b",
+          "to_anchor": "W"
+        }
+      },
+      "animation": {
+        "type": "draw_in",
+        "direction": "left_to_right"
+      }
+    },
+    {
+      "action_id": "create_reaction_arrow",
+      "action_type": "create",
+      "trigger_phrase": "an equal and opposite reaction",
+      "element": {
+        "id": "reaction_arrow",
+        "element_type": "shape",
+        "shape": "arrow",
+        "width_percent": 1,
+        "height_percent": 2,
+        "fill_color": "green",
+        "border_color": "green",
+        "position": {
+          "type": "connected",
+          "from_element": "object_b",
+          "from_anchor": "SW",
+          "to_element": "object_a",
+          "to_anchor": "SE"
+        }
+      },
+      "animation": {
+        "type": "draw_in",
+        "direction": "left_to_right"
+      }
     }
   ]
 }
