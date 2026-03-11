@@ -60,6 +60,12 @@
       "name": "The Scientific Method",
       "category": "Science",
       "prompt": "Create a short whiteboard presentation explaining the scientific method. Show the steps in order: Observation → Question → Hypothesis → Experiment → Analysis → Conclusion, connected by arrows. Add each step as it is spoken. Use a draw_in animation for the arrows. Keep the transcript to 5-6 sentences."
+    },
+    {
+      "id": "tc_sf_001",
+      "name": "Amazon Prime Flywheel",
+      "category": "Stock & Flow",
+      "prompt": "Explain the Amazon Prime flywheel using a stock and flow diagram. Show how Prime members, marketplace sellers, and product selection reinforce each other through converters like customer traffic, customer experience, and lower prices."
     }
   ]
 }
