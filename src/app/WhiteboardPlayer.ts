@@ -288,11 +288,19 @@ export class WhiteboardPlayer {
           console.warn(`WhiteboardPlayer: edit target "${edit.element_id}" not found in scene graph`);
           return;
         }
+
+        // Default to morph for edits (v1.1), fall back to pop_highlight (v1.0 compat)
+        const editAnim: AnimationConfig = action.animation ?? { type: "morph", category: "transform" as const };
+        const isMorph = editAnim.type === "morph";
+
+        // For morph: snapshot the old definition before applying changes
+        if (isMorph) {
+          el.morphFrom = { ...el.definition } as typeof el.definition;
+        }
+
         // Apply changes to the element definition
         this.sceneGraph.updateElement(edit.element_id, edit.changes as Partial<typeof el.definition>);
 
-        // Use pop_highlight as the default for edits if no animation specified
-        const editAnim: AnimationConfig = action.animation ?? { type: "pop_highlight" };
         this.animationController.onAnimationStart(
           edit.action_id,
           edit.element_id,
@@ -309,12 +317,14 @@ export class WhiteboardPlayer {
           console.warn(`WhiteboardPlayer: delete target "${del.element_id}" not found in scene graph`);
           return;
         }
-        const deleteAnim: AnimationConfig = action.animation ?? { type: "fade_in" };
+        // Default to fade exit (v1.1). v1.0 scenes may pass fade_in which the
+        // AnimationController normalizes to fade_exit when isDeleting=true.
+        const deleteAnim: AnimationConfig = action.animation ?? { type: "fade", category: "exit" as const };
         this.animationController.onAnimationStart(
           del.action_id,
           del.element_id,
           deleteAnim,
-          true  // isDeleting = true → AnimationController fades out and removes
+          true  // isDeleting = true → AnimationController removes element on completion
         );
         break;
       }

@@ -1,6 +1,6 @@
 // =============================================================================
 // WHITEBOARD AI — Framework Schema Types
-// Version 1.0
+// Version 1.1
 //
 // This file is the LLM contract. Every scene definition JSON must conform to
 // the types defined here. Keep property names descriptive and human-readable.
@@ -191,7 +191,98 @@ export interface TextElement {
 export type WhiteboardElement = ShapeElement | TextElement;
 
 // -----------------------------------------------------------------------------
-// Animations
+// Animation Categories (v1.1)
+//
+// Four MECE categories:
+//   Enter     — element appears on canvas
+//   Emphasize — temporary attention-grab, element returns to original state
+//   Transform — permanent property change
+//   Exit      — element removed from canvas
+// -----------------------------------------------------------------------------
+
+export type AnimationCategory = "enter" | "emphasize" | "transform" | "exit";
+
+export type EasingFunction = "linear" | "ease_in" | "ease_out" | "ease_in_out" | "spring";
+
+// --- Enter primitives ---
+
+/** Opacity 0→1. Subtle, non-directional entrance. */
+export interface FadeEnterAnimation {
+  type: "fade";
+  category: "enter";
+}
+
+/** Scale 0→1 with spring overshoot (0→1.15→1). Attention-grabbing entrance. */
+export interface PopAnimation {
+  type: "pop";
+  category: "enter";
+}
+
+/** Progressive directional clip reveal. Best for lines, arrows, shapes. */
+export interface DrawAnimation {
+  type: "draw";
+  category: "enter";
+  direction?: "left_to_right" | "top_to_bottom";
+}
+
+/** Characters appear one at a time. Text-specific entrance. */
+export interface TypewriteAnimation {
+  type: "typewrite";
+  category: "enter";
+}
+
+// --- Emphasize primitives ---
+
+/** Scale 1→1.2→1. Temporary size emphasis, element returns to normal. */
+export interface PulseAnimation {
+  type: "pulse";
+  category: "emphasize";
+}
+
+/** Fill color briefly brightens (+30%) then returns to original. */
+export interface FlashAnimation {
+  type: "flash";
+  category: "emphasize";
+}
+
+// --- Transform primitives ---
+
+/** Smooth interpolation from old property values to new ones. */
+export interface MorphAnimation {
+  type: "morph";
+  category: "transform";
+}
+
+// --- Exit primitives ---
+
+/** Opacity 1→0. Subtle, non-distracting exit. */
+export interface FadeExitAnimation {
+  type: "fade";
+  category: "exit";
+}
+
+/** Scale 1→0. Dramatic removal, element collapses to center. */
+export interface ShrinkAnimation {
+  type: "shrink";
+  category: "exit";
+}
+
+// --- v1.1 animation config union ---
+
+export type AnimationConfigV2 =
+  | FadeEnterAnimation
+  | PopAnimation
+  | DrawAnimation
+  | TypewriteAnimation
+  | PulseAnimation
+  | FlashAnimation
+  | MorphAnimation
+  | FadeExitAnimation
+  | ShrinkAnimation;
+
+// -----------------------------------------------------------------------------
+// Legacy animation types (v1.0 backward compat)
+// These continue to work. The engine maps them to v1.1 equivalents internally.
 // -----------------------------------------------------------------------------
 
 export interface FadeInAnimation {
@@ -223,7 +314,12 @@ export interface TypewriterAnimation {
   type: "typewriter";
 }
 
+// --- Combined animation config (v1.0 + v1.1) ---
+
 export type AnimationConfig =
+  // v1.1 primitives
+  | AnimationConfigV2
+  // v1.0 legacy (backward compat)
   | FadeInAnimation
   | PopInAnimation
   | PopHighlightAnimation
@@ -253,7 +349,7 @@ export interface CreateAction {
 /**
  * Edit properties of an existing element.
  * Only the fields in `changes` are updated; all other fields stay the same.
- * Default animation is pop_highlight (scale up/down to draw attention to the change).
+ * Default animation is morph (v1.1) or pop_highlight (v1.0).
  */
 export interface EditAction {
   action_id: string;
@@ -298,7 +394,7 @@ export interface CanvasConfig {
  * - element id values must be unique
  */
 export interface SceneDefinition {
-  version: "1.0";
+  version: "1.0" | "1.1";
   title?: string;
   canvas: CanvasConfig;
   /** The full text to be read aloud by the text-to-speech engine */

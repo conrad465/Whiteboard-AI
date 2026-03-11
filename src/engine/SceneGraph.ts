@@ -35,6 +35,13 @@ export interface LiveElement {
   visibleChars?: number;
   /** For draw_in animation: 0–1 clip progress */
   drawProgress?: number;
+
+  // --- v1.1 animation state ---
+
+  /** For morph: snapshot of definition before the edit was applied */
+  morphFrom?: WhiteboardElement;
+  /** For flash: the runtime fill color override (CSS hex). null = use definition color. */
+  flashColor?: string | null;
 }
 
 // -----------------------------------------------------------------------------

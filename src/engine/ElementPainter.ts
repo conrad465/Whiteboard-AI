@@ -55,7 +55,8 @@ export class ElementPainter {
     w: number,
     h: number
   ): void {
-    ctx.fillStyle   = COLOR_MAP[def.fill_color];
+    // Use flashColor override if set (flash emphasis or morph color interpolation)
+    ctx.fillStyle   = el.flashColor ?? COLOR_MAP[def.fill_color];
     ctx.strokeStyle = COLOR_MAP[def.border_color];
     ctx.lineWidth   = def.border_width ?? 2;
     ctx.lineJoin    = "round";
@@ -256,7 +257,7 @@ export class ElementPainter {
                 : x;
 
     ctx.font         = `${fontStyle} ${fontSize}px ${WHITEBOARD_FONT_FAMILY}`;
-    ctx.fillStyle    = COLOR_MAP[def.color];
+    ctx.fillStyle    = el.flashColor ?? COLOR_MAP[def.color];
     ctx.textBaseline = "top";
     ctx.textAlign    = align;
 
