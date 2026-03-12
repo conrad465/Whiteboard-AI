@@ -18,7 +18,8 @@ export type NamedColor =
   | "green"
   | "yellow"
   | "orange"
-  | "purple";
+  | "purple"
+  | "gray";
 
 export type ShapeType =
   | "rectangle"

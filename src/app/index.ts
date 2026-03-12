@@ -1,6 +1,8 @@
 import { WhiteboardPlayer, type PlayerState } from "./WhiteboardPlayer";
 import { StockFlowPlayer } from "../scene-types/stock-flow/StockFlowPlayer";
 import type { StockFlowScene } from "../scene-types/stock-flow/types";
+import { ConceptGraphPlayer } from "../scene-types/concept-graph/ConceptGraphPlayer";
+import type { ConceptGraphScene } from "../scene-types/concept-graph/types";
 import { TranscriptViewer } from "./TranscriptViewer";
 import { TestingPanel } from "./TestingPanel";
 import type { SceneDefinition } from "../schema/types";
@@ -89,6 +91,19 @@ function wrapStockFlowPlayer(canvas: HTMLCanvasElement): UnifiedPlayer & { loadS
   };
 }
 
+function wrapConceptGraphPlayer(canvas: HTMLCanvasElement): UnifiedPlayer & { loadScene(s: ConceptGraphScene): void } {
+  const p = new ConceptGraphPlayer(canvas);
+  return {
+    play: () => p.play(),
+    pause: () => p.pause(),
+    stop: () => p.stop(),
+    resize: (w, h) => p.resize(w, h),
+    onStateChanged: (h) => p.onStateChanged(h),
+    destroy: () => p.destroy(),
+    loadScene: (s) => p.loadScene(s),
+  };
+}
+
 const viewer = new TranscriptViewer(txContainer);
 let activePlayer: UnifiedPlayer | null = null;
 
@@ -116,7 +131,12 @@ function loadSceneFromJson(json: unknown): void {
     activePlayer = null;
   }
 
-  if (obj.scene_type === "stock_and_flow") {
+  if (obj.scene_type === "concept_graph") {
+    const cgPlayer = wrapConceptGraphPlayer(canvas);
+    cgPlayer.onStateChanged(setStatus);
+    cgPlayer.loadScene(obj as unknown as ConceptGraphScene);
+    activePlayer = cgPlayer;
+  } else if (obj.scene_type === "stock_and_flow") {
     const sfPlayer = wrapStockFlowPlayer(canvas);
     sfPlayer.onStateChanged(setStatus);
     sfPlayer.loadScene(obj as unknown as StockFlowScene);

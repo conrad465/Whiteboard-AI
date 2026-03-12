@@ -13,6 +13,7 @@ export const COLOR_MAP: Record<NamedColor, string> = {
   yellow: "#FDD835",
   orange: "#FB8C00",
   purple: "#8E24AA",
+  gray:   "#757575",
 };
 
 /**

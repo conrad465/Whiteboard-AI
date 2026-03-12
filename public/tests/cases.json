@@ -64,8 +64,8 @@
     {
       "id": "tc_sf_001",
       "name": "Amazon Prime Flywheel",
-      "category": "Stock & Flow",
-      "prompt": "Explain the Amazon Prime flywheel using a stock and flow diagram. Show how Prime members, marketplace sellers, and product selection reinforce each other through converters like customer traffic, customer experience, and lower prices."
+      "category": "Concept Graph",
+      "prompt": "Explain the Amazon Prime flywheel using a concept graph. Show how Prime members, marketplace sellers, and product selection reinforce each other through customer traffic, customer experience, and lower prices."
     }
   ]
 }

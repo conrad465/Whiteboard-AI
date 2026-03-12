@@ -1,80 +1,37 @@
 {
-  "scene_type": "stock_and_flow",
-  "version": "0.1",
+  "scene_type": "concept_graph",
+  "version": "0.2",
   "title": "The Amazon Prime Flywheel",
-  "colors": {
-    "stock": "blue",
-    "inflow": "green",
-    "outflow": "red",
-    "converter": "purple",
-    "connector": "orange"
+  "style": {
+    "palette": "blue",
+    "edge_color": "gray"
   },
-  "transcript": "Amazon's growth engine is one of the most famous flywheels in business. Let's break it down using stocks and flows. It starts with the customer base — Prime members. As customers grow, they generate more traffic. More traffic attracts third-party sellers onto the marketplace. Those sellers bring new product listings, expanding the overall product selection. A wider selection improves the customer experience. But there's another force at work: scale. More volume means lower cost structure, which enables lower prices. Lower prices and better experience both drive new member signups, feeding the customer base again. This is the virtuous cycle that turned an online bookstore into the everything store.",
-  "system": {
-    "stocks": [
+  "transcript": "Amazon's growth engine is one of the most famous flywheels in business. Let's break it down. It starts with the customer base — Prime members. As customers grow, they generate more traffic. More traffic attracts third-party sellers onto the marketplace. Those sellers expand the product selection. A wider selection improves the customer experience. And better experience drives new member signups, feeding the customer base again. But there's another force: scale enables lower prices, which also drives signups. This is the virtuous cycle that turned an online bookstore into the everything store.",
+  "graph": {
+    "nodes": [
       { "id": "customers", "label": "Prime Members" },
-      { "id": "sellers", "label": "Marketplace Sellers" },
-      { "id": "selection", "label": "Product Selection" }
-    ],
-    "flows": [
-      { "id": "new_members", "label": "New Signups", "type": "inflow", "to_stock": "customers" },
-      { "id": "new_sellers", "label": "Seller Acquisition", "type": "inflow", "to_stock": "sellers" },
-      { "id": "new_listings", "label": "New Listings", "type": "inflow", "to_stock": "selection" }
-    ],
-    "converters": [
       { "id": "traffic", "label": "Customer Traffic" },
+      { "id": "sellers", "label": "Marketplace Sellers" },
+      { "id": "selection", "label": "Product Selection" },
       { "id": "experience", "label": "Customer Experience" },
       { "id": "lower_prices", "label": "Lower Prices" }
     ],
-    "connectors": [
+    "edges": [
       { "from": "customers", "to": "traffic", "label": "generates" },
-      { "from": "traffic", "to": "new_sellers", "label": "attracts" },
-      { "from": "sellers", "to": "new_listings", "label": "bring" },
+      { "from": "traffic", "to": "sellers", "label": "attracts" },
+      { "from": "sellers", "to": "selection", "label": "expand" },
       { "from": "selection", "to": "experience", "label": "improves" },
-      { "from": "experience", "to": "new_members", "label": "drives" },
-      { "from": "lower_prices", "to": "new_members", "label": "drives" }
+      { "from": "experience", "to": "customers", "label": "drives signups" },
+      { "from": "lower_prices", "to": "customers", "label": "drives signups" }
     ]
   },
   "narrative": [
-    {
-      "trigger_phrase": "It starts with the customer base",
-      "action": "enter",
-      "targets": ["customers"]
-    },
-    {
-      "trigger_phrase": "they generate more traffic",
-      "action": "enter",
-      "targets": ["traffic"]
-    },
-    {
-      "trigger_phrase": "More traffic attracts third-party sellers",
-      "action": "enter",
-      "targets": ["sellers", "new_sellers"]
-    },
-    {
-      "trigger_phrase": "Those sellers bring new product listings",
-      "action": "enter",
-      "targets": ["selection", "new_listings"]
-    },
-    {
-      "trigger_phrase": "improves the customer experience",
-      "action": "enter",
-      "targets": ["experience"]
-    },
-    {
-      "trigger_phrase": "which enables lower prices",
-      "action": "enter",
-      "targets": ["lower_prices"]
-    },
-    {
-      "trigger_phrase": "drive new member signups",
-      "action": "enter",
-      "targets": ["new_members"]
-    },
-    {
-      "trigger_phrase": "virtuous cycle",
-      "action": "emphasize",
-      "targets": ["customers", "sellers", "selection"]
-    }
+    { "trigger_phrase": "starts with the customer base", "action": "enter", "targets": ["customers"] },
+    { "trigger_phrase": "they generate more traffic", "action": "enter", "targets": ["traffic"] },
+    { "trigger_phrase": "attracts third-party sellers", "action": "enter", "targets": ["sellers"] },
+    { "trigger_phrase": "expand the product selection", "action": "enter", "targets": ["selection"] },
+    { "trigger_phrase": "improves the customer experience", "action": "enter", "targets": ["experience"] },
+    { "trigger_phrase": "scale enables lower prices", "action": "enter", "targets": ["lower_prices"] },
+    { "trigger_phrase": "virtuous cycle", "action": "emphasize", "targets": ["customers", "traffic", "sellers", "selection", "experience"] }
   ]
 }
